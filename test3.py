@@ -1,1 +1,2 @@
-class
+class Bank1:
+    def
