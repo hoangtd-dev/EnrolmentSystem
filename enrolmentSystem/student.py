@@ -84,18 +84,18 @@ class Student(User):
         }
 
     @classmethod
-    def from_dict(cls, data):
-        # Correctly initializing the Student instance with the expected arguments
-
+    def from_dict(cls, data, subjects):
+    # Correctly initializing the Student instance with the expected arguments
         student = cls(
             data["student_id"],
-            data["student_name"],  # Ensure that you're using the correct key here
+            data["student_name"],
             data["email"],
             data["password"],
-            data["enrolment_list"]
+            []  # Initialize with an empty enrolment list
         )
 
         # If there's an enrolment list, handle it accordingly
-        if student.enrolment_list != []:
-            student.enrolment_list = [Enrolment.from_dict(e) for e in data.get("enrolment_list", [])]
+        if "enrolment_list" in data:
+            student.enrolment_list = [Enrolment.from_dict(e, subjects) for e in data.get("enrolment_list", [])]
+
         return student

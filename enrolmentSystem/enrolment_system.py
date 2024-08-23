@@ -10,21 +10,41 @@ class EnrolmentSystem:
         self.subjects = []  # Start with an empty list of subjects
         self.load_students()
 
+    def load_subjects(self):
+        subjects = {}
+        
+        if os.path.exists("student.data"):
+            try:
+                with open("student.data", "r") as f:
+                    student_dicts = json.load(f)
+                    for student_data in student_dicts:
+                        enrolment_list = student_data.get("enrolment_list", [])
+                        for enrolment_data in enrolment_list:
+                            subject_id = enrolment_data.get("subject_id")
+                            subject_name = enrolment_data.get("subject_name")
+                            if subject_id and subject_name and subject_id not in subjects:
+                                subjects[subject_id] = Subject(subject_id=subject_id, subject_name=subject_name)
+                print(f"Loaded {len(subjects)} unique subjects from student data.")
+            except json.JSONDecodeError:
+                print("Error: student.data is empty or corrupted. Initializing with an empty subject list.")
+                return []
+
+        return list(subjects.values())
+    
     def load_students(self):
         if os.path.exists("student.data"):
             try:
                 with open("student.data", "r") as f:
                     student_dicts = json.load(f)
-                    print(student_dicts)
-                    self.students = [Student.from_dict(d) for d in student_dicts]
-
+                    subjects = self.load_subjects()  # Load subjects first
+                    self.students = [Student.from_dict(d, subjects) for d in student_dicts]
                     print(f"Loaded {len(self.students)} students from file.")
             except json.JSONDecodeError:
                 print("Error: student.data is empty or corrupted. Initializing with an empty student list.")
                 self.students = []
         else:
             print("No student data found, creating a new file.")
-            self.save_students()  # Create an empty student.data file
+            self.save_students() 
 
     def save_students(self):
         with open("student.data", "w") as f:

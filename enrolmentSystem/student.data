@@ -1,37 +1,66 @@
 [
     {
         "student_id": "000001",
-        "student_name": "111",
+        "student_name": "asd",
         "email": "123@university.com",
-        "password": "Asdfg123",
-        "enrolment_list": []
-    },
-    {
-        "student_id": "000001",
-        "student_name": "123",
-        "email": "123@university.com",
-        "password": "Asdfg123",
-        "enrolment_list": []
+        "password": "Asdfgh123",
+        "enrolment_list": [
+            {
+                "subject_id": "355",
+                "subject_name": "",
+                "grade": {
+                    "mark": 28,
+                    "grade": "Z"
+                }
+            },
+            {
+                "subject_id": "636",
+                "subject_name": "",
+                "grade": {
+                    "mark": 49,
+                    "grade": "Z"
+                }
+            }
+        ]
     },
     {
         "student_id": "000002",
-        "student_name": "fdd",
-        "email": "123@university.com",
+        "student_name": "cccc",
+        "email": "ccc@university.com",
         "password": "Asdfg123",
-        "enrolment_list": []
-    },
-    {
-        "student_id": "000003",
-        "student_name": "1333",
-        "email": "123@university.com",
-        "password": "Asdfg1234",
-        "enrolment_list": []
-    },
-    {
-        "student_id": "000004",
-        "student_name": "adasd",
-        "email": "123@university.com",
-        "password": "ASDFGH123",
-        "enrolment_list": []
+        "enrolment_list": [
+            {
+                "subject_id": "250",
+                "subject_name": "",
+                "grade": {
+                    "mark": 99,
+                    "grade": "HD"
+                }
+            },
+            {
+                "subject_id": "218",
+                "subject_name": "",
+                "grade": {
+                    "mark": 99,
+                    "grade": "HD"
+                }
+            },
+            {
+                "subject_id": "289",
+                "subject_name": "",
+                "grade": {
+                    "mark": 99,
+                    "grade": "HD"
+                }
+            },
+            {
+                "subject_id": "044",
+                "subject_name": "",
+                "grade": {
+                    "mark": 93,
+                    "grade": "HD"
+                }
+            }
+        ]
     }
 ]
