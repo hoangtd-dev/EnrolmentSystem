@@ -1,2 +1,2 @@
 class Bank1:
-    def
+    def wswswsws
