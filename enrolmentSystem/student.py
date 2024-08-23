@@ -66,3 +66,20 @@ class Student:
     @staticmethod
     def generate_student_id(current_total_student_count):
         return f"S{str(current_total_student_count + 1).zfill(4)}"
+
+    def enrol_subject(self):
+        if len(self.enrolment_list) >= 4:
+            print("Cannot enroll in more than 4 subjects.")
+            return "Cannot enroll in more than 4 subjects."
+
+        subject = Subject()  # Automatically generate a new subject with a random ID
+        if subject is None:
+            raise ValueError("Failed to create subject for enrolment.")
+        
+        enrolment = Enrolment(subject)
+        self.enrolment_list.append(enrolment)
+
+        if len(self.enrolment_list) > 4:
+            return "You have enrolled in more than 4 subjects!"
+
+        return f"Enrolled in {subject.subject_name} with ID {subject.subject_id}. Mark: {enrolment.grade.mark}, Grade: {enrolment.grade.grade}"

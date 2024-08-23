@@ -1,8 +1,33 @@
 [
     {
         "student_id": "S0001",
-        "student_name": "SSS",
+        "student_name": "sss",
         "password": "1234567",
-        "enrolment_list": []
+        "enrolment_list": [
+            {
+                "subject_id": "555",
+                "subject_name": "Unknown Subject",
+                "grade": {
+                    "mark": 95,
+                    "grade": "HD"
+                }
+            },
+            {
+                "subject_id": "817",
+                "subject_name": "Unknown Subject",
+                "grade": {
+                    "mark": 50,
+                    "grade": "P"
+                }
+            },
+            {
+                "subject_id": "754",
+                "subject_name": "Unknown Subject",
+                "grade": {
+                    "mark": 31,
+                    "grade": "Z"
+                }
+            }
+        ]
     }
 ]

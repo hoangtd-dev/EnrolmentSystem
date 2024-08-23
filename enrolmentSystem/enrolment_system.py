@@ -12,10 +12,14 @@ class EnrolmentSystem:
 
     def load_students(self):
         if os.path.exists("student.data"):
-            with open("student.data", "r") as f:
-                student_dicts = json.load(f)
-                self.students = [Student.from_dict(d, self.subjects) for d in student_dicts]
-                print(f"Loaded {len(self.students)} students from file.")
+            try:
+                with open("student.data", "r") as f:
+                    student_dicts = json.load(f)
+                    self.students = [Student.from_dict(d, self.subjects) for d in student_dicts]
+                    print(f"Loaded {len(self.students)} students from file.")
+            except json.JSONDecodeError:
+                print("Error: student.data is empty or corrupted. Initializing with an empty student list.")
+                self.students = []
         else:
             print("No student data found, creating a new file.")
             self.save_students()  # Create an empty student.data file

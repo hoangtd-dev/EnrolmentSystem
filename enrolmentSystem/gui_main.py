@@ -4,6 +4,7 @@ from enrolment_system import EnrolmentSystem
 from admin import Admin
 from student import Student
 
+
 class EnrollmentSystemGUI:
     def __init__(self, root, system):
         self.root = root
@@ -62,12 +63,14 @@ class EnrollmentSystemGUI:
             else:
                 messagebox.showerror("Login Failed", "Invalid admin password")
         else:  # Student login
-            student = next((s for s in range(self.system.students) if s.student_id == username), None)
+            # Directly iterate over the list of students
+            student = next((s for s in self.system.students if s.student_id == username), None)
             if student and student.login(password):
                 self.current_student = student
                 self.show_main_menu()
             else:
                 messagebox.showerror("Login Failed", "Invalid student ID or password")
+
 
     def logout(self):
         if self.current_student:
@@ -125,14 +128,33 @@ class EnrollmentSystemGUI:
 
     def organize_students(self):
         organized_students = self.system.admin.organize_students_by_grade(self.system.students)
-        organized_list = "\n".join([f"Student ID: {s.student_id}, Name: {s.student_name}, Total Marks: {sum(s.get_total_marks())}" for s in organized_students])
+        organized_list = "\n".join([f"Student ID: {s.student_id}, Name: {s.student_name}, Total Marks: {s.get_total_marks()}" for s in organized_students])
         messagebox.showinfo("Organized Students", organized_list)
 
     def categorize_students(self):
+        # Get the categorized students from the admin
         categories = self.system.admin.categorize_students(self.system.students)
-        pass_list = "\n".join([f"Student ID: {s.student_id}, Name: {s.student_name}, Total Marks: {sum(s.get_total_marks())}" for s in categories['Pass']])
-        fail_list = "\n".join([f"Student ID: {s.student_id}, Name: {s.student_name}, Total Marks: {sum(s.get_total_marks())}" for s in categories['Fail']])
-        messagebox.showinfo("Categorized Students", f"Pass:\n{pass_list}\n\nFail:\n{fail_list}")
+
+        # Prepare the output strings for Pass and Fail categories
+        pass_list = "\n".join(
+            [f"Student ID: {s.student_id}, Name: {s.student_name}, Total Marks: {s.get_total_marks()}"
+            for s in categories['Pass']]
+        )
+        fail_list = "\n".join(
+            [f"Student ID: {s.student_id}, Name: {s.student_name}, Total Marks: {s.get_total_marks()}"
+            for s in categories['Fail']]
+        )
+
+        # Display the categorized students in message boxes
+        if pass_list:
+            messagebox.showinfo("Pass", f"Passed Students:\n{pass_list}")
+        else:
+            messagebox.showinfo("Pass", "No students in Pass category.")
+
+        if fail_list:
+            messagebox.showinfo("Fail", f"Failed Students:\n{fail_list}")
+        else:
+            messagebox.showinfo("Fail", "No students in Fail category.")
 
     def remove_student(self):
         student_id = simpledialog.askstring("Remove Student", "Enter student ID to remove:")
