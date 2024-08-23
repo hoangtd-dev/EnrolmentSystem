@@ -1,31 +1,16 @@
+from user import User
 from student import Student
-import random
 
-class Admin:
-    def __init__(self, admin_id, admin_name, password):
+class Admin(User):
+    def __init__(self, admin_id, name, email, password):
+        super().__init__(name, email, password)  # Initialize the base User class
         self.admin_id = admin_id
-        self.admin_name = admin_name
-        self.password = password
-        self.is_logged_in = False
-
-    def login(self, password):
-        if self.password == password:
-            self.is_logged_in = True
-            print(f"Admin {self.admin_name} logged in successfully.")
-            return True
-        else:
-            print("Invalid admin password.")
-            return False
-
-    def logout(self):
-        self.is_logged_in = False
-        print(f"Admin {self.admin_name} logged out.")
 
     def view_all_students(self, students):
-        return "\n".join([f"Student ID: {s.student_id}, Name: {s.student_name}, Total Marks: {s.get_total_marks()}" for s in students])
+        return "\n".join([f"Student ID: {s.student_id}, Name: {s.name}, Total Marks: {s.get_total_marks()}" for s in students])
 
     def organize_students_by_grade(self, students):
-        # Sort students by their total marks, using the get_total_marks() method directly
+        # Sort students by their total marks in descending order
         organized_students = sorted(students, key=lambda s: s.get_total_marks(), reverse=True)
         return organized_students
 
@@ -42,8 +27,10 @@ class Admin:
         return categories
     
     def remove_student(self, students, student_id):
+        # Remove the student with the specified ID
         students = [student for student in students if student.student_id != student_id]
         return students
 
     def clear_all_students(self):
+        # Clear the entire list of students
         return []

@@ -1,10 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox, simpledialog
-from enrolment_system import EnrolmentSystem
-from admin import Admin
 from student import Student
-
-
+from admin import Admin
+from enrolment_system import EnrolmentSystem
 class EnrollmentSystemGUI:
     def __init__(self, root, system):
         self.root = root
@@ -58,19 +56,18 @@ class EnrollmentSystemGUI:
         password = self.password_entry.get()
 
         if user_type == "Admin":
-            if self.system.admin.login(password):
+            admin = self.system.admin
+            if admin.login(password):
                 self.show_admin_menu()
             else:
                 messagebox.showerror("Login Failed", "Invalid admin password")
         else:  # Student login
-            # Directly iterate over the list of students
-            student = next((s for s in self.system.students if s.student_id == username), None)
+            student = next((s for s in self.system.students if s.email == username), None)
             if student and student.login(password):
                 self.current_student = student
                 self.show_main_menu()
             else:
-                messagebox.showerror("Login Failed", "Invalid student ID or password")
-
+                messagebox.showerror("Login Failed", "Invalid student email or password")
 
     def logout(self):
         if self.current_student:
@@ -102,72 +99,32 @@ class EnrollmentSystemGUI:
         name_entry = tk.Entry(registration_frame)
         name_entry.pack(pady=5)
 
+        tk.Label(registration_frame, text="Enter your email:").pack(pady=5)
+        email_entry = tk.Entry(registration_frame)
+        email_entry.pack(pady=5)
+
         tk.Label(registration_frame, text="Enter a password:").pack(pady=5)
         password_entry = tk.Entry(registration_frame, show="*")
         password_entry.pack(pady=5)
 
         def register():
             name = name_entry.get()
+            email = email_entry.get()
             password = password_entry.get()
-            if not Student.is_password_valid(password):
-                messagebox.showerror("Error", "Password must be at least 7 characters long")
-                return
-            student_id = Student.generate_student_id(len(self.system.students))
-            student = Student(student_id, name, password)
-            self.system.students.append(student)
-            self.system.save_students()  # Save after registering
-            messagebox.showinfo("Success", f"Registration successful! Your student ID is {student_id}")
-            registration_frame.destroy()
-            self.show_login_screen()
+            enrolment_list = []
+            student_id = Student.generate_student_id()
+            
+            try:
+                student = Student(student_id, name, email, password, enrolment_list)
+                self.system.students.append(student)
+                self.system.save_students()  # Save after registering
+                messagebox.showinfo("Success", f"Registration successful! Your student ID is {student.student_id}")
+                registration_frame.destroy()
+                self.show_login_screen()
+            except ValueError as e:
+                messagebox.showerror("Registration Failed", str(e))
 
         tk.Button(registration_frame, text="Register", command=register).pack(pady=10)
-
-    def view_all_students(self):
-        students_list = self.system.admin.view_all_students(self.system.students)
-        messagebox.showinfo("All Students", students_list)
-
-    def organize_students(self):
-        organized_students = self.system.admin.organize_students_by_grade(self.system.students)
-        organized_list = "\n".join([f"Student ID: {s.student_id}, Name: {s.student_name}, Total Marks: {s.get_total_marks()}" for s in organized_students])
-        messagebox.showinfo("Organized Students", organized_list)
-
-    def categorize_students(self):
-        # Get the categorized students from the admin
-        categories = self.system.admin.categorize_students(self.system.students)
-
-        # Prepare the output strings for Pass and Fail categories
-        pass_list = "\n".join(
-            [f"Student ID: {s.student_id}, Name: {s.student_name}, Total Marks: {s.get_total_marks()}"
-            for s in categories['Pass']]
-        )
-        fail_list = "\n".join(
-            [f"Student ID: {s.student_id}, Name: {s.student_name}, Total Marks: {s.get_total_marks()}"
-            for s in categories['Fail']]
-        )
-
-        # Display the categorized students in message boxes
-        if pass_list:
-            messagebox.showinfo("Pass", f"Passed Students:\n{pass_list}")
-        else:
-            messagebox.showinfo("Pass", "No students in Pass category.")
-
-        if fail_list:
-            messagebox.showinfo("Fail", f"Failed Students:\n{fail_list}")
-        else:
-            messagebox.showinfo("Fail", "No students in Fail category.")
-
-    def remove_student(self):
-        student_id = simpledialog.askstring("Remove Student", "Enter student ID to remove:")
-        self.system.students = self.system.admin.remove_student(self.system.students, student_id)
-        self.system.save_students()  # Save after removing student
-        messagebox.showinfo("Success", f"Student with ID {student_id} removed")
-
-    def clear_all_students(self):
-        confirm = messagebox.askyesno("Clear All Students", "Are you sure you want to clear all students?")
-        if confirm:
-            self.system.students = self.system.admin.clear_all_students()
-            self.system.save_students()  # Save after clearing all students
-            messagebox.showinfo("Success", "All students cleared.")
 
     def enroll_student(self):
         if self.current_student:
@@ -190,16 +147,46 @@ class EnrollmentSystemGUI:
     def change_password(self):
         new_password = simpledialog.askstring("Change Password", "Enter new password:", show="*")
         if self.current_student and new_password:
-            if not Student.is_password_valid(new_password):
-                messagebox.showerror("Error", "Password must be at least 7 characters long")
-                return
-            result = self.current_student.change_password(new_password)
-            self.system.save_students()  # Save after changing password
-            messagebox.showinfo("Change Password", result)
+            try:
+                result = self.current_student.change_password(new_password)
+                self.system.save_students()  # Save after changing password
+                messagebox.showinfo("Change Password", result)
+            except ValueError as e:
+                messagebox.showerror("Error", str(e))
 
-# Running the GUI application
+    def view_all_students(self):
+        students_list = self.system.admin.view_all_students(self.system.students)
+        messagebox.showinfo("All Students", students_list)
+
+    def organize_students(self):
+        organized_students = self.system.admin.organize_students_by_grade(self.system.students)
+        organized_list = "\n".join([f"Student ID: {s.student_id}, Name: {s.name}, Total Marks: {s.get_total_marks()}" for s in organized_students])
+        messagebox.showinfo("Organized Students", organized_list)
+
+    def categorize_students(self):
+        categories = self.system.admin.categorize_students(self.system.students)
+        pass_list = "\n".join([f"Student ID: {s.student_id}, Name: {s.name}, Total Marks: {s.get_total_marks()}" for s in categories['Pass']])
+        fail_list = "\n".join([f"Student ID: {s.student_id}, Name: {s.name}, Total Marks: {s.get_total_marks()}" for s in categories['Fail']])
+
+        messagebox.showinfo("Pass", f"Passed Students:\n{pass_list}" if pass_list else "No students in Pass category.")
+        messagebox.showinfo("Fail", f"Failed Students:\n{fail_list}" if fail_list else "No students in Fail category.")
+
+    def remove_student(self):
+        student_id = simpledialog.askstring("Remove Student", "Enter student ID to remove:")
+        self.system.students = self.system.admin.remove_student(self.system.students, student_id)
+        self.system.save_students()  # Save after removing student
+        messagebox.showinfo("Success", f"Student with ID {student_id} removed")
+
+    def clear_all_students(self):
+        confirm = messagebox.askyesno("Clear All Students", "Are you sure you want to clear all students?")
+        if confirm:
+            self.system.students = self.system.admin.clear_all_students()
+            self.system.save_students()  # Save after clearing all students
+            messagebox.showinfo("Success", "All students cleared.")
+
+# Example of initializing the GUI
 if __name__ == "__main__":
-    admin = Admin("A001", "AdminName", "admin_password")
+    admin = Admin("A001", "AdminName", "admin@university.com", "AdminPassword123")
     system = EnrolmentSystem(admin)
 
     root = tk.Tk()

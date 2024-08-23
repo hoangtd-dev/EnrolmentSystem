@@ -15,7 +15,9 @@ class EnrolmentSystem:
             try:
                 with open("student.data", "r") as f:
                     student_dicts = json.load(f)
-                    self.students = [Student.from_dict(d, self.subjects) for d in student_dicts]
+                    print(student_dicts)
+                    self.students = [Student.from_dict(d) for d in student_dicts]
+
                     print(f"Loaded {len(self.students)} students from file.")
             except json.JSONDecodeError:
                 print("Error: student.data is empty or corrupted. Initializing with an empty student list.")
@@ -37,10 +39,10 @@ class EnrolmentSystem:
     def get_subject_by_id(self, subject_id):
         return next((subject for subject in self.subjects if subject.subject_id == subject_id), None)
 
-    def remove_student(self, student_id):
-        self.students = self.admin.remove_student(self.students, student_id)
-        self.save_students()
+    # def remove_student(self, student_id):
+    #     self.students = self.admin.remove_student(self.students, student_id)
+    #     self.save_students()
 
-    def clear_all_students(self):
-        self.students = self.admin.clear_all_students()
-        self.save_students()
+    # def clear_all_students(self):
+    #     self.students = self.admin.clear_all_students()
+    #     self.save_students()
