@@ -11,16 +11,12 @@ class EnrollmentSystemGUI:
         self.root.title("Enrollment System")
 
         # Login Frame
-        self.login_frame = tk.Frame(root)
-        self.login_frame.pack()
+        self.login_frame = tk.Frame(self.root)
+        self.login_frame.pack(pady=20, padx=20)
 
         tk.Label(self.login_frame, text="Enrollment System", font=("Arial", 16)).pack(pady=10)
 
-        self.user_type = tk.StringVar(value="Student")
-        tk.Radiobutton(self.login_frame, text="Admin", variable=self.user_type, value="Admin").pack(side=tk.LEFT, padx=10)
-        tk.Radiobutton(self.login_frame, text="Student", variable=self.user_type, value="Student").pack(side=tk.LEFT, padx=10)
-
-        tk.Label(self.login_frame, text="Username:").pack(pady=5)
+        tk.Label(self.login_frame, text="Email:").pack(pady=5)
         self.username_entry = tk.Entry(self.login_frame)
         self.username_entry.pack(pady=5)
 
@@ -28,8 +24,18 @@ class EnrollmentSystemGUI:
         self.password_entry = tk.Entry(self.login_frame, show="*")
         self.password_entry.pack(pady=5)
 
-        tk.Button(self.login_frame, text="Login", command=self.login).pack(pady=10)
-        tk.Button(self.login_frame, text="Register as Student", command=self.show_registration).pack(pady=10)
+        self.user_type = tk.StringVar(value="Student")
+        tk.Radiobutton(self.login_frame, text="Admin", variable=self.user_type, value="Admin").pack(anchor=tk.CENTER, pady=2)
+        tk.Radiobutton(self.login_frame, text="Student", variable=self.user_type, value="Student").pack(anchor=tk.CENTER, pady=2)
+
+
+        # Create a frame to contain the buttons horizontally
+        button_frame = tk.Frame(self.login_frame)
+        button_frame.pack(pady=10)
+
+        # Pack the buttons inside the button_frame
+        tk.Button(button_frame, text="Login", command=self.login).pack(side=tk.LEFT, padx=5)
+        tk.Button(button_frame, text="Register as Student", command=self.show_registration).pack(side=tk.LEFT, padx=5)
 
         # Main Menu Frame
         self.main_menu_frame = tk.Frame(root)

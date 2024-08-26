@@ -7,7 +7,7 @@
         "enrolment_list": [
             {
                 "subject_id": "355",
-                "subject_name": "",
+                "subject_name": "Unknown Subject",
                 "grade": {
                     "mark": 28,
                     "grade": "Z"
@@ -15,7 +15,7 @@
             },
             {
                 "subject_id": "636",
-                "subject_name": "",
+                "subject_name": "Unknown Subject",
                 "grade": {
                     "mark": 49,
                     "grade": "Z"
@@ -30,16 +30,8 @@
         "password": "Asdfg123",
         "enrolment_list": [
             {
-                "subject_id": "250",
-                "subject_name": "",
-                "grade": {
-                    "mark": 99,
-                    "grade": "HD"
-                }
-            },
-            {
                 "subject_id": "218",
-                "subject_name": "",
+                "subject_name": "Unknown Subject",
                 "grade": {
                     "mark": 99,
                     "grade": "HD"
@@ -47,7 +39,7 @@
             },
             {
                 "subject_id": "289",
-                "subject_name": "",
+                "subject_name": "Unknown Subject",
                 "grade": {
                     "mark": 99,
                     "grade": "HD"
@@ -55,7 +47,7 @@
             },
             {
                 "subject_id": "044",
-                "subject_name": "",
+                "subject_name": "Unknown Subject",
                 "grade": {
                     "mark": 93,
                     "grade": "HD"
