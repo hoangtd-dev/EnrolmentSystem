@@ -1,0 +1,2 @@
+class TestCliEnrolmentSystem:
+	pass
