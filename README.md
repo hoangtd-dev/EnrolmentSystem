@@ -27,7 +27,7 @@ python3 main.py -m cli
 │ ├── enrolment_system.data
 ├── src
 │ ├── base (abstract class)
-│ ├── entities (entity abstract class)
+│ 	─── entities (entity abstract class)
 │ ├── core (utils, constants)
 │ └── entities
 │ └── enums
