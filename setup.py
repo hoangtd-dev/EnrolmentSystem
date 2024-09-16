@@ -1,5 +1,6 @@
 from argparse import ArgumentParser
-from src.enums.system_mode import SystemModeEnum
+
+from src.enums.system_mode_enum import SystemModeEnum
 
 def get_default_system_args():
 	parser = ArgumentParser(
@@ -9,7 +10,7 @@ def get_default_system_args():
 	parser.add_argument(
 		'-m' ,"--mode", 
 		type=SystemModeEnum, 
-		default=SystemModeEnum.GUI,
+		default=SystemModeEnum.Gui,
 		help="using 2 options: cli or gui"
 	)
 	
