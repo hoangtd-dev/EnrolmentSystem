@@ -1,7 +1,8 @@
 from ..base.entities.base_user import BaseUser
+from ..enums.role_enum import RoleEnum
 class Student(BaseUser):
-	def __init__(self, id, name, email, password, role):
-		super().__init__(id, name, email, password, role)
+	def __init__(self, id, name, email, password):
+		super().__init__(id, name, email, password, RoleEnum.Student)
 		self._enrolment_list = []
 
 	def show_cli_menu(self, system):
@@ -39,7 +40,6 @@ class Student(BaseUser):
 
 	@staticmethod
 	def register(id, name, email, password):
-		# return new student
-		pass
+		return Student(id, name, email, password)
 
 	

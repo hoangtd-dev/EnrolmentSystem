@@ -1,6 +1,7 @@
 from ..base.entities.base_user import BaseUser
 
 from ..enums.notification_type_enum import NotificationTypeEnum
+from ..enums.role_enum import RoleEnum
 
 from ..core.utils import (
 	get_custom_integer_input, 
@@ -8,8 +9,8 @@ from ..core.utils import (
 )
 
 class Admin(BaseUser):
-	def __init__(self, id, name, email, password, role):
-		super().__init__(id, name, email, password, role)
+	def __init__(self, id, name, email, password):
+		super().__init__(id, name, email, password, RoleEnum.Admin)
 
 	def show_cli_menu(self, system):
 		show_cli_notification(NotificationTypeEnum.Info, '-------------admin menu:--------------')

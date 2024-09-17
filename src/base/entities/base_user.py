@@ -15,6 +15,9 @@ class BaseUser:
 	def get_id(self):
 		return self._id
 
+	def get_email(self):
+		return self._email
+
 	def is_login(self):
 		return self._is_login
 	
@@ -28,5 +31,5 @@ class BaseUser:
 		self._is_login = False
 
 	def __str__(self):
-		return f'name: {self._name} - role: {self._role}'
+		return f'id: {self._id} - name: {self._name} - role: {self._role}'
 	

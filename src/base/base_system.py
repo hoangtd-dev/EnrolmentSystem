@@ -6,14 +6,20 @@ from ..entities.student import Student
 
 from ..enums.role_enum import RoleEnum
 
+from ..core.auth_utils import format_id
+
+from ..core.instants import (
+	NUMBER_OF_USER_ID_LENGTH,
+	NUMBER_OF_SUBJECT_ID_LENGTH
+)
 class BaseSystem():
 	def __init__(self):
 		self._admins = [
-			Admin(id='000001', name='admin', email='admin@gmail.com', password='admin', role=RoleEnum.Admin)
+			Admin(id='000001', name='admin', email='admin@gmail.com', password='admin')
 		]
 		self._students = [
-			Student(id='000002', name='student 1', email='student1@gmail.com', password='123', role=RoleEnum.Student),
-			Student(id='000003', name='student 2', email='student2@gmail.com', password='123', role=RoleEnum.Student)
+			Student(id='000002', name='student 1', email='student1@gmail.com', password='123'),
+			Student(id='000003', name='student 2', email='student2@gmail.com', password='123')
 		]
 		self._subjects = []
 		self._is_active = True
@@ -59,22 +65,22 @@ class BaseSystem():
 	def logout(self) -> None:
 		self._active_user = None
 	
-	def register_student(self, email, password, name):
-		# check email/pass format check_email_format() and check_password_format()
-		# generate student id
-		# new student
-		# get random admin and update in Student.update_admin(admin_id)
-		# update admin list
-		pass
+	def __generate_student_id(self):
+		next_id = max([int(user.get_id()) for user in self._students + self._admins]) + 1
+		return format_id(NUMBER_OF_USER_ID_LENGTH, next_id)
 
-	def generate_student_id(self):
-		# get total student count __get_new_student_id()
-		# call generate_id with argument = 6
-		pass
+	def register_student(self, email, password, name):
+		new_id = self.__generate_student_id()
+		if new_id is None:
+			return False
+		
+		self._students.append(Student.register(id=new_id, name=name, email=email, password=password))
+		return True
+
 
 	def generate_subject_id(self):
-		# get total student count __get_new_subject_id()
-		# call generate_id with argument = 3
+		next_id = max([int(subject.get_id()) for subject in self._subjects]) + 1
+		return format_id(NUMBER_OF_SUBJECT_ID_LENGTH, next_id)
 		pass
 
 	def get_random_subject(self):
@@ -82,10 +88,3 @@ class BaseSystem():
 
 	def save_file(self):
 		pass
-
-	def __get_new_student_id(self):
-		pass
-
-	def __get_new_subject_id(self):
-		pass
-	

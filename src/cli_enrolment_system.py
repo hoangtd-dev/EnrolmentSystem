@@ -8,7 +8,8 @@ from .core.utils import (
 )
 from .core.auth_utils import (
 	check_email_valid, 
-	check_password_valid
+	check_password_valid,
+	check_duplicated
 )
 
 class CliEnrolmentSystem(BaseSystem):
@@ -29,7 +30,7 @@ class CliEnrolmentSystem(BaseSystem):
 				case 1:
 					self.__handle_login()
 				case 2:
-					print('Register processing')
+					self.__handle_register()
 				case 3:
 					print('Enrolment system stopped!')
 					self.update_active_status(False)
@@ -50,3 +51,28 @@ class CliEnrolmentSystem(BaseSystem):
 					break
 			else:
 					show_cli_notification(NotificationTypeEnum.Error, 'Username/password is not matching. Please try again.')
+
+	def __handle_register(self):
+		while True:
+			email_input = input('Input email: ')
+			if not check_email_valid(email_input):
+				show_cli_notification(NotificationTypeEnum.Error, 'Email format is incorrect. Please try again.')
+				continue
+
+			emails = [user.get_email() for user in self._students + self._admins]
+			if check_duplicated(emails, email_input):
+				show_cli_notification(NotificationTypeEnum.Error, 'Email is duplicated. Please try again.')
+				continue	
+
+			password_input = input('Input password: ')
+			if not check_password_valid(password_input):
+				show_cli_notification(NotificationTypeEnum.Error, 'Password format is incorrect. Please try again.')
+				continue
+
+			name_input = input('Input name:')
+			is_registered = self.register_student(email=email_input, password=password_input, name=name_input)
+			if is_registered:
+				show_cli_notification(NotificationTypeEnum.Success, f'email: {email_input} is created!')
+			else:
+				show_cli_notification(NotificationTypeEnum.Error, 'Cannot generate new account, please contact with admin')
+			break
