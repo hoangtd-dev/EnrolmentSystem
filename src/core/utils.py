@@ -2,17 +2,26 @@ from termcolor import colored
 
 from ..enums.notification_type_enum import NotificationTypeEnum
 
+def format_id(str_len, new_id):
+  new_id_str = str(new_id)
+  new_id_len = len(new_id_str)
+
+  if new_id_len > str_len:
+    return None
+ 
+  return '0' * (str_len - new_id_len) + new_id_str
+
 def show_cli_notification(notification_type, message):
 	match notification_type:
-		case NotificationTypeEnum.Success:
+		case NotificationTypeEnum.SUCCESS:
 			print(colored(f'SUCCESSFUL: {message}', 'green'))
-		case NotificationTypeEnum.Error:
+		case NotificationTypeEnum.ERROR:
 			print(colored(f'ERROR: {message}', 'red'))
-		case NotificationTypeEnum.Warning:
+		case NotificationTypeEnum.WARNING:
 			print(colored(f'WARNING: {message}', 'yellow'))
-		case NotificationTypeEnum.Info:
+		case NotificationTypeEnum.INFO:
 			print(colored(f'{message}', 'blue'))
-		case NotificationTypeEnum.Highlight:
+		case NotificationTypeEnum.HIGHLIGHT:
 			print(colored(f'{message}', None, attrs=["bold"]))		
 		case _:
 			print(message)
@@ -26,7 +35,7 @@ def get_custom_integer_input(prompt):
 			value = int(input(prompt))
 			return value
 		except ValueError:
-			show_cli_notification(NotificationTypeEnum.Error, "Invalid input. Please enter an integer.")
+			show_cli_notification(NotificationTypeEnum.ERROR, "Invalid input. Please enter an integer.")
 
 def get_custom_float_input(prompt):
 	while True:
@@ -34,4 +43,4 @@ def get_custom_float_input(prompt):
 			value = float(input(prompt))
 			return value
 		except ValueError:
-			show_cli_notification(NotificationTypeEnum.Error, "Invalid input. Please enter an float.")
+			show_cli_notification(NotificationTypeEnum.ERROR, "Invalid input. Please enter an float.")

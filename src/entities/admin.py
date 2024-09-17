@@ -10,10 +10,10 @@ from ..core.utils import (
 
 class Admin(BaseUser):
 	def __init__(self, id, name, email, password):
-		super().__init__(id, name, email, password, RoleEnum.Admin)
+		super().__init__(id, name, email, password, RoleEnum.ADMIN)
 
 	def show_cli_menu(self, system):
-		show_cli_notification(NotificationTypeEnum.Info, '-------------admin menu:--------------')
+		show_cli_notification(NotificationTypeEnum.INFO, '-------------admin menu:--------------')
 		
 		while True:
 			print('1. View all students')
@@ -30,12 +30,9 @@ class Admin(BaseUser):
 			if (selected_option == 6):
 				break
 
-	def __get_students(self, system):
-		return system.get_all_students()
-
 	def view_all_students(self, students):
 		if len(students) == 0:
-			show_cli_notification(NotificationTypeEnum.Highlight, 'No student found')
+			show_cli_notification(NotificationTypeEnum.HIGHLIGHT, 'No student found')
 
 		print("\n".join([str(student) for student in students]))
 
@@ -45,7 +42,8 @@ class Admin(BaseUser):
 	def categorize_students(self, students):
 		passed_students = []
 		failed_students = []
-		for student in students:
+		enrolled_students = [student for student in students if len(student.get_enrolments()) > 0]
+		for student in enrolled_students:
 			if student.get_total_marks() >= 50:
 				passed_students.append(student)
 			else:
@@ -61,32 +59,34 @@ class Admin(BaseUser):
 	def __handle_option(self, system, selected_option):
 		match selected_option:
 			case 1:
-				students = self.__get_students(system)
+				students = system.get_all_students()
 				self.view_all_students(students)
 			case 2:
-				students = self.__get_students(system)
+				students = system.get_all_students()
 				organized_students = self.organized_students_by_grade(students)
 				system.update_students(organized_students)
-				show_cli_notification(NotificationTypeEnum.Success, 'students is organized by grade')
+				show_cli_notification(NotificationTypeEnum.SUCCESS, 'students is organized by grade')
 			case 3:
-				students = self.__get_students(system)
+				students = system.get_all_students()
 				( passed_students, failed_students ) = self.categorize_students(students)
-				show_cli_notification(NotificationTypeEnum.Info, '---Passed students---')
+
+				show_cli_notification(NotificationTypeEnum.INFO, '---Passed students---')
 				self.view_all_students(passed_students)
-				show_cli_notification(NotificationTypeEnum.Info, '---Failed students---')
+				show_cli_notification(NotificationTypeEnum.INFO, '---Failed students---')
 				self.view_all_students(failed_students)
 			case 4:
 				student_id = input('StudentId that you want to remove: ')
+				
 				if self.remove_student_by_id(system, student_id):
-					show_cli_notification(NotificationTypeEnum.Success, f'Student with id {student_id} is deleted')
+					show_cli_notification(NotificationTypeEnum.SUCCESS, f'Student with id {student_id} is deleted')
 				else:
-					show_cli_notification(NotificationTypeEnum.Error, f'Cannot find student with id {student_id}')
+					show_cli_notification(NotificationTypeEnum.ERROR, f'Cannot find student with id {student_id}')
 			case 5:
 				self.remove_all_students(system)
-				show_cli_notification(NotificationTypeEnum.Success, 'All students are deleted!')
+				show_cli_notification(NotificationTypeEnum.SUCCESS, 'All students are deleted!')
 			case 6:
 				self.logout()
 				system.logout()
-				show_cli_notification(NotificationTypeEnum.Success, 'Logout')
+				show_cli_notification(NotificationTypeEnum.SUCCESS, 'Logout')
 			case _:
-				show_cli_notification(NotificationTypeEnum.Warning, 'Please choose from 1 - 6')
+				show_cli_notification(NotificationTypeEnum.WARNING, 'Please choose from 1 - 6')

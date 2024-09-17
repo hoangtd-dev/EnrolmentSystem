@@ -7,4 +7,4 @@ class Subject:
 		return self._id
 
 	def __str__(self):
-		pass
+		return self._name

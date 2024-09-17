@@ -1,9 +1,9 @@
 from enum import StrEnum
 
 class NotificationTypeEnum(StrEnum):
-	Success = 'success'
-	Error = 'error',
-	Warning = 'warning',
-	Info = 'info',
-	Highlight = 'highlight'
+	SUCCESS = 'success'
+	ERROR = 'error',
+	WARNING = 'warning',
+	INFO = 'info',
+	HIGHLIGHT = 'highlight'
 
