@@ -12,6 +12,7 @@ Set up virtual environment to download packages
 
 ```
 python3 -m venv .venv
+source .venv/bin/activate
 ```
 
 Install term color to color notification
