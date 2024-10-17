@@ -1,8 +1,10 @@
 from abc import abstractmethod
 
+from ..entities.admin import Admin
+
 class BaseSystem():
 	def __init__(self):
-		self._admins = []
+		self._admin = Admin(id='000001', name='admin', email='admin@gmail.com', password='admin')
 		self._students = []
 		self._subjects = []
 		self._is_active = True

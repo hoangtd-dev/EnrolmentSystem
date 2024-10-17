@@ -8,22 +8,25 @@ from .core.utils import (
 
 class CliEnrolmentSystem(BaseSystem):
 	def run(self):
-		show_cli_notification(NotificationTypeEnum.Info, 'Enrolment System started!')
 		while self._is_active:
-			self.__menu()
-			selected_option = input('Your selection: ')
+			selected_option = self.__menu()
 			self.__handle_option(selected_option)
 
+
 	def __menu(self):
-		print('University System: (A)dmin, (S)tudent, or X: ')
+		return input('University System: (A)dmin, (S)tudent, or X: ')
 
 	def __handle_option(self, selected_option):
 			match selected_option.lower():
 				case 'a':
-					pass
+					self._active_user = self._admin
+					self._active_user.show_cli_menu(self)
 				case 's':
-					pass
+					self.__student_authentication_menu()
 				case 'x':
 					self.update_active_status(False)
 				case _:
 					show_cli_notification(NotificationTypeEnum.Warning, 'Please input a/s/x only')
+
+	def __student_authentication_menu(self):
+		print('student authentication menu...')

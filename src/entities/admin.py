@@ -7,4 +7,4 @@ class Admin(BaseUser):
 		super().__init__(id, name, email, password, RoleEnum.ADMIN)
 
 	def show_cli_menu(self, system):
-		pass
+		print('Admin menu')
