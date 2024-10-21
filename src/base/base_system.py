@@ -24,7 +24,7 @@ class BaseSystem():
 	def load_data(): raise NotImplementedError
 
 	@abstractmethod
-	def save_changes(data): raise NotImplementedError
+	def save_changes(): raise NotImplementedError
 
 	def is_active(self):
 		return self._is_active
