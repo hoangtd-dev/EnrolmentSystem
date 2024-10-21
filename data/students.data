@@ -1,0 +1,1 @@
+[{"id": "000001", "name": "Stu 1", "email": "student1@gmai.com", "password": "student", "enrolment_list": [{"grade": {"mark": 99, "type": "HD"}, "subject": {"id": 1, "name": "Subject 1"}}]}, {"id": "000002", "name": "Stu 2", "email": "student2@gmai.com", "password": "student", "enrolment_list": [{"grade": {"mark": 99, "type": "HD"}, "subject": {"id": 1, "name": "Subject 1"}}]}]

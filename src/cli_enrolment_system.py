@@ -1,6 +1,7 @@
 from .base.base_system import BaseSystem
 
 from .enums.notification_type_enum import NotificationTypeEnum
+from .enums.file_status_enum import FileStatusEnum
 
 from .core.utils import (
 	show_cli_notification
@@ -8,6 +9,7 @@ from .core.utils import (
 
 class CliEnrolmentSystem(BaseSystem):
 	def run(self):
+		self.load_data()
 		self.__system_menu()
 
 	def __system_menu(self):
@@ -97,3 +99,15 @@ class CliEnrolmentSystem(BaseSystem):
 			case _:
 				show_cli_notification(NotificationTypeEnum.Warning, 'Please input c/e/r/s/x only')
 
+	def load_data(self):
+		file_response = self.read_file()
+		if file_response.get_status() == FileStatusEnum.ERROR:
+			show_cli_notification(NotificationTypeEnum.Error, file_response.get_error())
+	
+	def save_changes(self):
+		file_response = self.write_file(self._students)
+
+		if file_response.get_status() == FileStatusEnum.SUCCESS:
+			self.load_data()
+		else:
+			show_cli_notification(NotificationTypeEnum.Error, file_response.get_error())
