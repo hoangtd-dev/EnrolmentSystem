@@ -11,17 +11,17 @@ def format_id(str_len, new_id):
  
   return '0' * (str_len - new_id_len) + new_id_str
 
-def show_cli_notification(notification_type, message, is_template_included = True):
+def show_cli_notification(notification_type, message):
 	match notification_type:
 		case NotificationTypeEnum.Success:
-			print(colored(f'{'SUCCESSFUL:' if is_template_included else '' }{message}', 'green'))
+			print(colored(message, 'green'))
 		case NotificationTypeEnum.Error:
-			print(colored(f'{'ERROR:' if is_template_included else '' }{message}', 'red'))
+			print(colored(message, 'red'))
 		case NotificationTypeEnum.Warning:
-			print(colored(f'{'WARNING: ' if is_template_included else '' }{message}', 'yellow'))
+			print(colored(message, 'yellow'))
 		case NotificationTypeEnum.Info:
-			print(colored(f'{message}', 'blue'))
+			print(colored(message, 'blue'))
 		case NotificationTypeEnum.Highlight:
-			print(colored(f'{message}', None, attrs=["bold"]))		
+			print(colored(message, None, attrs=["bold"]))		
 		case _:
 			print(message)

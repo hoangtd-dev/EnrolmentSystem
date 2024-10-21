@@ -25,7 +25,7 @@ class CliEnrolmentSystem(BaseSystem):
 					self.__student_menu()
 				case 'x':
 					self.update_active_status(False)
-					show_cli_notification(NotificationTypeEnum.Warning, 'Thank You', is_template_included=False)
+					show_cli_notification(NotificationTypeEnum.Warning, 'Thank You')
 				case _:
 					show_cli_notification(NotificationTypeEnum.Warning, 'Please input a/s/x only')
 
