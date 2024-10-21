@@ -1,6 +1,12 @@
 from abc import abstractmethod
 
 from ..entities.admin import Admin
+from ..entities.database import Database
+
+from ..enums.file_status_enum import FileStatusEnum
+from ..entities.file import FileStatus
+
+from ..entities.student import Student
 
 class BaseSystem():
 	def __init__(self):
@@ -9,9 +15,16 @@ class BaseSystem():
 		self._subjects = []
 		self._is_active = True
 		self._active_user = None
+		self.__database = Database()
 
 	@abstractmethod
 	def run(): raise NotImplementedError
+
+	@abstractmethod
+	def load_data(): raise NotImplementedError
+
+	@abstractmethod
+	def save_changes(data): raise NotImplementedError
 
 	def is_active(self):
 		return self._is_active
@@ -19,8 +32,18 @@ class BaseSystem():
 	def update_active_status(self, new_status):
 		self._is_active = new_status
 
-	def load_data(self):
-		pass
+	def read_file(self):
+		file_response = self.__database.read_file()
+		if file_response.get_status() == FileStatusEnum.SUCCESS:
+			self._students = [Student.create_from_JSON(student) for student in file_response.value()]
+			return FileStatus(FileStatusEnum.SUCCESS)
+		else:
+			return FileStatus(FileStatusEnum.ERROR, file_response.get_error())
 
-	def save_file(self):
-		pass
+	def write_file(self, data):
+		file_response = self.__database.write_file(data)
+
+		if file_response.get_status() == FileStatusEnum.SUCCESS:
+			return FileStatus(FileStatusEnum.SUCCESS)
+		else:
+			return FileStatus(FileStatusEnum.ERROR, file_response.get_error())
