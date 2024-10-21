@@ -12,6 +12,7 @@ class CliEnrolmentSystem(BaseSystem):
 		self.load_data()
 		self.__system_menu()
 
+	# MENU SECTION
 	def __system_menu(self):
 		while self._is_active:
 			selected_option = input('University System: (A)dmin, (S)tudent, or X: ')
@@ -98,7 +99,10 @@ class CliEnrolmentSystem(BaseSystem):
 				pass
 			case _:
 				show_cli_notification(NotificationTypeEnum.Warning, 'Please input c/e/r/s/x only')
+	# END MENU SECTION
 
+
+	# SAVE AND LOAD DATA SECTION
 	def load_data(self):
 		file_response = self.read_file()
 		if file_response.get_status() == FileStatusEnum.ERROR:
@@ -111,3 +115,4 @@ class CliEnrolmentSystem(BaseSystem):
 			self.load_data()
 		else:
 			show_cli_notification(NotificationTypeEnum.Error, file_response.get_error())
+	# END SAVE AND LOAD DATA SECTION
