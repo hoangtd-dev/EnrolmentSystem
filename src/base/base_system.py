@@ -1,5 +1,6 @@
 import re
 import random
+import copy
 from abc import abstractmethod
 
 from ..entities.admin import Admin
@@ -28,6 +29,18 @@ class BaseSystem():
 
 	@abstractmethod
 	def save_changes(): raise NotImplementedError
+
+	def get_students(self):
+		return copy.deepcopy(self._students)
+	
+	def update_students(self, new_students):
+		self._students = new_students
+
+	def get_active_user(self):
+		return copy.deepcopy(self._active_user)
+
+	def update_active_user(self, active_user):
+		self._active_user = active_user
 
 	def is_active(self):
 		return self._is_active

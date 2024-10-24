@@ -11,7 +11,48 @@
         "name": "dasdsada",
         "email": "admin.ghfhg@university.com",
         "password": "Asdfgh12345",
-        "enrolment_list": []
+        "enrolment_list": [
+            {
+                "grade": {
+                    "mark": 20,
+                    "type": "Z"
+                },
+                "subject": {
+                    "id": "0001",
+                    "name": "subject 1"
+                }
+            },
+            {
+                "grade": {
+                    "mark": 50,
+                    "type": "P"
+                },
+                "subject": {
+                    "id": "0001",
+                    "name": "subject 2"
+                }
+            },
+            {
+                "grade": {
+                    "mark": 80,
+                    "type": "H"
+                },
+                "subject": {
+                    "id": "0001",
+                    "name": "subject 3"
+                }
+            },            
+            {
+                "grade": {
+                    "mark": 100,
+                    "type": "HD"
+                },
+                "subject": {
+                    "id": "0001",
+                    "name": "subject 4"
+                }
+            }
+        ]
     },
     {
         "id": "588504",

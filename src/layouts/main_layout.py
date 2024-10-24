@@ -4,8 +4,9 @@ from .enrolment_layout import EnrolmentLayout
 from .subject_layout import SubjectLayout
 
 class MainLayout(tk.Tk):
-	def __init__(self):
+	def __init__(self, system):
 		super().__init__()
+		self._system = system
 		self.title('Enrolment System')
 		self.__place_at_the_center(width=800, height=500)
 		self.navigate('login')
@@ -21,8 +22,8 @@ class MainLayout(tk.Tk):
 	def navigate(self, layer_name):
 		match layer_name:
 			case 'login':
-				LoginLayout(self).pack(fill=tk.BOTH, expand=True)
+				LoginLayout(self, self._system).pack(fill=tk.BOTH, expand=True)
 			case 'student_enrolment':
-				EnrolmentLayout(self).pack(fill=tk.BOTH, expand=True)
+				EnrolmentLayout(self, self._system).pack(fill=tk.BOTH, expand=True)
 			case 'student_subject':
-				SubjectLayout(self).pack(fill=tk.BOTH, expand=True)
+				SubjectLayout(self, self._system).pack(fill=tk.BOTH, expand=True)
