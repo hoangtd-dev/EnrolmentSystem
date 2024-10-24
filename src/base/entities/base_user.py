@@ -15,7 +15,10 @@ class BaseUser:
 	
 	def get_password(self):
 		return self._password
-
+	
+	def get_name(self):
+		return self._name
+	
 	def __str__(self):
 		return f'id: {self._id} - name: {self._name} - role: {self._role}'
 	

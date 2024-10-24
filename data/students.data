@@ -1,30 +1,37 @@
 [
     {
-        "id": "199851",
-        "name": "asdsadas",
+        "id": "577280",
+        "name": "John Smith",
+        "email": "john.smith@university.com",
+        "password": "Helloworld123",
+        "enrolment_list": []
+    },
+    {
+        "id": "172236",
+        "name": "dasdsada",
+        "email": "admin.ghfhg@university.com",
+        "password": "Asdfgh12345",
+        "enrolment_list": []
+    },
+    {
+        "id": "588504",
+        "name": "Adm Adm",
+        "email": "adm.adm@university.com",
+        "password": "Admin123456778",
+        "enrolment_list": []
+    },
+    {
+        "id": "439389",
+        "name": "Test 1",
+        "email": "Admin.admin@university.com",
+        "password": "ADDminn123332",
+        "enrolment_list": []
+    },
+    {
+        "id": "240945",
+        "name": "Admin 1",
         "email": "admin.admin@university.com",
-        "password": "Admin12345",
-        "enrolment_list": []
-    },
-    {
-        "id": "491230",
-        "name": "Student1",
-        "email": "student.student@university.com",
-        "password": "Admin7777",
-        "enrolment_list": []
-    },
-    {
-        "id": "410157",
-        "name": "Student 2",
-        "email": "student.new@university.com",
-        "password": "Student12345",
-        "enrolment_list": []
-    },
-    {
-        "id": "642524",
-        "name": "zoe",
-        "email": "zoe.lin@university.com",
-        "password": "Hello123",
+        "password": "Addminn123332",
         "enrolment_list": []
     }
 ]

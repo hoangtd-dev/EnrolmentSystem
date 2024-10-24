@@ -53,12 +53,15 @@ class BaseSystem():
 		
 	def register_student(self, name, email, password):
 		unique_id = self.generate_unique_id(6)
-		print(unique_id)
 		new_student = Student.register(unique_id, name, email, password)
 		self._students.append(new_student)
 
-	def is_duplicate_email(self, email):
-		return any(student.get_email() == email for student in self._students)
+	def check_duplicate_email(self, email):
+		for student in self._students:
+			if student.get_email() == email:
+				return student.get_name()
+			
+		return None
 
 	def is_email_valid(self, email):
 		return re.match(r"^[a-zA-Z]+\.[a-zA-Z]+@university\.com$", email) is not None
