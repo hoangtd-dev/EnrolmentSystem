@@ -24,7 +24,7 @@ class Database:
 	def write_file(self, data):
 		try:
 			with open(self.__path, 'w+') as file:
-				json.dump([item.to_dict() for item in data], file)
+				json.dump([item.to_dict() for item in data], file, indent=4)
 				return FileStatus(FileStatusEnum.SUCCESS)
 		except IOError as e:
 			return FileStatus(FileStatusEnum.ERROR, str(e.strerror))

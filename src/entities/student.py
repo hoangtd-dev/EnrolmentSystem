@@ -38,3 +38,13 @@ class Student(BaseUser):
 			student['password'],
 			enrolment_list
 		)
+	
+	@staticmethod
+	def register(id, name, email, password):
+		return Student(id, name, email, password)
+	
+	def update_password(self, new_password):
+		self._password = new_password
+	
+	def login(self, email, password):
+		return True if self._email == email and self._password == password else False

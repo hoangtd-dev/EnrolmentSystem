@@ -68,9 +68,9 @@ class CliEnrolmentSystem(BaseSystem):
 	def __handle_student_menu_option(self, selected_option):
 		match selected_option.lower():
 			case 'l':
-				pass
+				self.__handle_login()
 			case 'r':
-				pass
+				self.__handle_register()
 			case 'x':
 				pass
 			case _:
@@ -88,7 +88,7 @@ class CliEnrolmentSystem(BaseSystem):
 	def __handle_student_course_menu_option(self, selected_option):
 		match selected_option.lower():
 			case 'c':
-				pass
+				self.change_password()
 			case 'e':
 				pass
 			case 'r':
@@ -96,7 +96,7 @@ class CliEnrolmentSystem(BaseSystem):
 			case 's':
 				pass
 			case 'x':
-				pass
+				self.logout()
 			case _:
 				show_cli_notification(NotificationTypeEnum.Warning, 'Please input c/e/r/s/x only')
 	# END MENU SECTION
@@ -116,3 +116,51 @@ class CliEnrolmentSystem(BaseSystem):
 		else:
 			show_cli_notification(NotificationTypeEnum.Error, file_response.get_error())
 	# END SAVE AND LOAD DATA SECTION
+
+	def __handle_register(self):
+		email = input("Email: ")
+		password = input("Password: ")
+
+		if not self.is_password_valid(password) or not self.is_email_valid(email):
+			print("Incorrect email or password format.")
+			return
+
+		if self.is_duplicate_email(email):
+			print("This email is already registered.")
+			return
+
+		name = input("Name: ")
+		self.register_student(name, email, password)
+		self.save_changes()
+		print("Registration successful.")
+
+	def __handle_login(self):
+		email = input("Email: ")
+		password = input("Password: ")
+
+		for student in self._students:
+			if student.login(email, password):
+				print("Login successful!")
+				self._active_user = student  
+				break
+
+		if self._active_user:
+			self.__student_course_menu() 
+		else:
+			print("Incorrect email or password.")
+
+	def change_password(self):
+		if self._active_user:
+			while True:
+				new_password = input("New Password: ")
+				confirm_password = input("Confirm Password: ")
+				if new_password != confirm_password:
+					print("Passwords do not match - try again.")
+					continue
+				if not self.is_password_valid(new_password):
+					print("Invalid password. Must be at least 8 characters and follow the password policy.")
+					continue
+				self._active_user.update_password(new_password)
+				self.save_changes()
+				print("Password updated successfully.")
+				break
