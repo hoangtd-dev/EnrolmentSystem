@@ -4,6 +4,9 @@ from .layouts.main_layout import MainLayout
 from .enums.file_status_enum import FileStatusEnum
 
 class GuiEnrolmentSystem(BaseSystem):
+	def __init__(self):
+		super().__init__()
+
 	def run(self):
 		self.load_data()
 		root = MainLayout(self)
