@@ -3,8 +3,8 @@ from tkinter import ttk
 from ..base.base_authenticated_layer import BaseAuthenticatedLayer
 
 class SubjectLayout(BaseAuthenticatedLayer):
-	def __init__(self, master):
-		super().__init__(master)
+	def __init__(self, master, system):
+		super().__init__(master, system)
 
 	def setup_sidebar_widgets(self, master):
 		self.create_tabs(master, text='Subject', is_active=True)
@@ -17,5 +17,8 @@ class SubjectLayout(BaseAuthenticatedLayer):
 		action_frame = ttk.Frame(master, padding=5)
 		action_frame.pack(fill=tk.X)
 
-		clear_all_btn = ttk.Button(action_frame, text="Enrol new subject")
+		clear_all_btn = ttk.Button(action_frame, text="Enrol new subject", command=self.__enrol_subject)
 		clear_all_btn.pack(side='left')
+	
+	def __enrol_subject(self):
+		pass

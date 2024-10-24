@@ -1,11 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
 
-def create_input_field(master, label_text, is_focus=False, error_message=None, show=None):
+def create_input_field(master, label_text, is_focus=False, textvariable=None, error_message=None, show=None):
 		label = ttk.Label(master, text=label_text)
 		label.pack(fill=tk.X, expand=True, ipadx=5, ipady=5)
 
-		entry = ttk.Entry(master, show=show)
+		entry = ttk.Entry(master, textvariable=textvariable, show=show)
 		entry.pack(fill=tk.X, expand=True, ipadx=5, ipady=5)
 		
 		if is_focus:
@@ -16,8 +16,9 @@ def create_input_field(master, label_text, is_focus=False, error_message=None, s
 			error_label = ttk.Label(master, text=error_message, foreground='red')
 			error_label.pack(fill=tk.X, expand=True, ipadx=5, ipady=5)
 			error_label.pack_forget()
+			return entry, lambda: error_label.pack(fill=tk.X, expand=True, ipadx=5, ipady=5), lambda: error_label.pack_forget()
 
-		return entry, lambda: error_label.pack(fill=tk.X, expand=True, ipadx=5, ipady=5)
+		return (entry,None, None)
 
 def create_custom_table(master, columns, data):
 	displayed_column = [column_key for column_key, _ in columns.items()]

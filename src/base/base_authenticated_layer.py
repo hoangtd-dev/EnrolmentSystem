@@ -4,8 +4,9 @@ from abc import abstractmethod
 from .base_layer import BaseLayer
 
 class BaseAuthenticatedLayer(BaseLayer):
-	def __init__(self, master):
-		super().__init__(master)
+	def __init__(self, master, system):
+		super().__init__(master, system)
+		self._system = system
 
 		self.__top_bar_layer = self.__configure_top_bar_layer()
 		self.__setup_top_bar_widgets(self.__top_bar_layer)
@@ -23,7 +24,7 @@ class BaseAuthenticatedLayer(BaseLayer):
 		return top_bar_layer
 
 	def __setup_top_bar_widgets(self, master):
-		hello_label = ttk.Label(master, text='Hi, user', padding=10)
+		hello_label = ttk.Label(master, text=f'Hi, {self._system._active_user.get_name()}', padding=10)
 		hello_label.pack(side='left')
 		
 		logout_action = ttk.Label(master, text='Logout', padding=10)

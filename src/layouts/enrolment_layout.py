@@ -4,8 +4,8 @@ from ..base.base_authenticated_layer import BaseAuthenticatedLayer
 from ..core.gui_utils import create_custom_table
 
 class EnrolmentLayout(BaseAuthenticatedLayer):
-	def __init__(self, master):
-		super().__init__(master)
+	def __init__(self, master, system):
+		super().__init__(master, system)
 
 	def setup_sidebar_widgets(self, master):
 		self.create_tabs(master, text='Subject', next_layout_key='student_subject')

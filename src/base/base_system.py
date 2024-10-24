@@ -14,7 +14,7 @@ class BaseSystem():
 		self._students = []
 		self._subjects = []
 		self._is_active = True
-		self._active_user = None
+		self._active_user = Student(id='000002', name='Hoang Tran', email='hoangtran@gmail.com', password='123')
 		self.__database = Database()
 
 	@abstractmethod
