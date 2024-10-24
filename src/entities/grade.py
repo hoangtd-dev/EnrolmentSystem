@@ -1,9 +1,16 @@
+import copy
 from ..enums.grade_type_enum import GradeTypeEnum
 
 class Grade:
 	def __init__(self, mark, type):
 		self._mark = mark
 		self._type = type
+
+	def get_mark(self):
+		return copy.copy(self._mark)
+
+	def get_type(self):
+		return copy.copy(self._type)
 
 	@staticmethod
 	def create():

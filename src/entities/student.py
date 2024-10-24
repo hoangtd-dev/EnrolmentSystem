@@ -1,3 +1,4 @@
+import copy
 from ..enums.role_enum import RoleEnum
 
 from ..base.entities.base_user import BaseUser
@@ -11,6 +12,9 @@ class Student(BaseUser):
 	def __init__(self, id, name, email, password, enrolment_list = []):
 		super().__init__(id, name, email, password, RoleEnum.STUDENT)
 		self._enrolment_list = enrolment_list
+
+	def get_enrolment_list(self):
+		return copy.deepcopy(self._enrolment_list)
 	
 	def to_dict(self):
 		return {

@@ -28,7 +28,7 @@ class BaseAuthenticatedLayer(BaseLayer):
 		hello_label.pack(side='left')
 		
 		logout_action = ttk.Label(master, text='Logout', padding=10)
-		logout_action.bind("<Button-1>", lambda event: self.navigate('login'))
+		logout_action.bind("<Button-1>", lambda event: self.__handle_logout())
 		logout_action.pack(side='right')
 
 	def __configure_sidebar_layer(self):
@@ -61,3 +61,7 @@ class BaseAuthenticatedLayer(BaseLayer):
 			tab.bind("<Button-1>", lambda event: self.navigate(next_layout_key))
 
 		return tab
+
+	def __handle_logout(self):
+		self._system.logout()
+		self.navigate('login')
