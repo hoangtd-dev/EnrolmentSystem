@@ -1,7 +1,6 @@
 from .base.base_system import BaseSystem
 from termcolor import colored
 
-from .enums.notification_type_enum import NotificationTypeEnum
 from .enums.file_status_enum import FileStatusEnum
 
 class CliEnrolmentSystem(BaseSystem):
@@ -30,7 +29,7 @@ class CliEnrolmentSystem(BaseSystem):
 					self.update_active_status(False)
 					print(colored('Thank You', 'yellow'))
 				case _:
-					colored('Please input a/s/x only', 'yellow')
+					print(colored('Please input a/s/x only', 'yellow'))
 
 	def __admin_menu(self):
 		is_loop = True
@@ -56,7 +55,7 @@ class CliEnrolmentSystem(BaseSystem):
 			case 'x':
 				self.logout()
 			case _:
-				colored('Please input c/g/p/r/s/x only', 'yellow')
+				print(colored('Please input c/g/p/r/s/x only', 'yellow'))
 
 	def __student_menu(self):
 		is_loop = True
@@ -76,7 +75,7 @@ class CliEnrolmentSystem(BaseSystem):
 			case 'x':
 				pass
 			case _:
-				colored('Please input l/r/x only', 'yellow')
+				print(colored('Please input l/r/x only', 'yellow'))
 
 	def __student_course_menu(self):
 		is_loop = True
@@ -100,14 +99,14 @@ class CliEnrolmentSystem(BaseSystem):
 			case 'x':
 				self.logout()
 			case _:
-				colored('Please input c/e/r/s/x only', 'yellow')
+				print(colored('Please input c/e/r/s/x only', 'yellow'))
 	# END MENU SECTION
 
 	# SAVE AND LOAD DATA SECTION
 	def load_data(self):
 		file_response = self.read_file()
 		if file_response.get_status() == FileStatusEnum.ERROR:
-			colored(file_response.get_error(), 'red')
+			print(colored(file_response.get_error(), 'red'))
 	
 	def save_changes(self):
 		file_response = self.write_file(self._students)
@@ -115,7 +114,7 @@ class CliEnrolmentSystem(BaseSystem):
 		if file_response.get_status() == FileStatusEnum.SUCCESS:
 			self.load_data()
 		else:
-			colored(file_response.get_error(), 'red')
+			print(colored(file_response.get_error(), 'red'))
 	# END SAVE AND LOAD DATA SECTION
 
 	def __handle_register(self):
