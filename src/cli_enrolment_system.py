@@ -156,7 +156,7 @@ class CliEnrolmentSystem(BaseSystem):
 			if self._active_user:
 				self.__student_course_menu() 
 			else:
-				print("Incorrect email or password.")
+				print(colored(self._tab_indent + "Incorrect email or password.", 'red'))
 			break
 
 	def __handle_admin_login(self):

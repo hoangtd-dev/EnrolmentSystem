@@ -1,3 +1,4 @@
+import copy
 from ..enums.grade_type_enum import GradeTypeEnum
 
 class Grade:

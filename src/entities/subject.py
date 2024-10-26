@@ -1,3 +1,5 @@
+import copy
+
 class Subject:
     def __init__(self, id, name):
         self._id = id
