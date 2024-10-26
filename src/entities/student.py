@@ -1,4 +1,3 @@
-import copy
 from ..enums.role_enum import RoleEnum
 
 from ..base.entities.base_user import BaseUser
@@ -14,18 +13,18 @@ import random
 class Student(BaseUser):
 	def __init__(self, id, name, email, password, enrolment_list = []):
 		super().__init__(id, name, email, password, RoleEnum.STUDENT)
-		self._enrolment_list = enrolment_list
+		self.__enrolment_list = enrolment_list
 
 	def get_enrolment_list(self):
-		return copy.deepcopy(self._enrolment_list)
+		return self.__enrolment_list
 	
 	def to_dict(self):
 		return {
-				"id": self._id,
-				"name": self._name,
-				"email": self._email,
-				"password": self._password,
-				"enrolment_list": [ enrolment.to_dict() for enrolment in self._enrolment_list ]
+				"id": self.get_id(),
+				"name": self.get_name(),
+				"email": self.get_email(),
+				"password": self.get_password(),
+				"enrolment_list": [ enrolment.to_dict() for enrolment in self.__enrolment_list ]
 		}
   
 	def from_dict(student_dict):
@@ -66,14 +65,11 @@ class Student(BaseUser):
 	def register(id, name, email, password):
 		return Student(id, name, email, password)
 	
-	def update_password(self, new_password):
-		self._password = new_password
-	
 	def login(self, email, password):
-		return True if self._email == email and self._password == password else False
+		return True if self.get_email() == email and self.get_password() == password else False
 
 	def enrol_subject(self, subject_name):
-		if len(self._enrolment_list) >= 4:
+		if len(self.__enrolment_list) >= 4:
 			raise ValueError("Maximum enrolment of 4 subjects reached")
 
 		# Generate subject ID and random mark
@@ -96,24 +92,24 @@ class Student(BaseUser):
 		subject = Subject(subject_id, subject_name)
 		grade = Grade(mark, grade_type)
 		enrolment = Enrolment(grade, subject)
-		self._enrolment_list.append(enrolment)
+		self.__enrolment_list.append(enrolment)
 
 		# Recalculate the average mark
-		self.calculate_average_mark()
+		# self.calculate_average_mark()
 
   
 	def remove_subject(self, subject_id):
 		# Find and remove the subject by ID
-		self._enrolment_list = [
-			enrolment for enrolment in self._enrolment_list if enrolment.subject.get_id() != subject_id
+		self.__enrolment_list = [
+			enrolment for enrolment in self.__enrolment_list if enrolment.get_subject().get_id() != subject_id
 		]
 		self.calculate_average_mark()
 
 	def calculate_average_mark(self):
-		if not self._enrolment_list:
+		if not self.__enrolment_list:
 			return 0
 
-		total_marks = sum([enrolment.grade.get_mark() for enrolment in self._enrolment_list])
-		average_mark = total_marks / len(self._enrolment_list)
-		print(f"Updated average mark for {self._name}: {average_mark}")
+		total_marks = sum([enrolment.get_grade().get_mark() for enrolment in self.__enrolment_list])
+		average_mark = total_marks / len(self.__enrolment_list)
+		print(f"Updated average mark for {self.get_name()}: {average_mark}")
 		return average_mark

@@ -1,18 +1,16 @@
-import copy
-
 class Enrolment:
 	def __init__(self, grade, subject):
-		self.grade = grade
-		self.subject = subject
+		self.__grade = grade
+		self.__subject = subject
 
 	def get_grade(self):
-		return copy.deepcopy(self._grade)
+		return self.__grade
 
 	def get_subject(self):
-		return copy.deepcopy(self._subject)
+		return self.__subject
 
 	def to_dict(self):
 		return {
-			"grade": self.grade.to_dict(),
-			"subject": self.subject.to_dict()
+			"grade": self.__grade.to_dict(),
+			"subject": self.__subject.to_dict()
 		}
