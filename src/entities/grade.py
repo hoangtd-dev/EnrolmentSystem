@@ -5,11 +5,11 @@ class Grade:
 		self._mark = mark
 		self._type = type
 
-	@staticmethod
-	def create():
-		random_mark = 99 # TODO: Implement random mark function
-		grade_type = GradeTypeEnum.HIGH_DISTINCTION # TODO: Implement assign grade type
-		return Grade(random_mark, grade_type)
+	def get_mark(self):
+		return self._mark
+
+	def get_type(self):
+		return self._type
 
 	def to_dict(self):
 		return {

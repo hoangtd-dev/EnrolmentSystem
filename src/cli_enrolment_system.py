@@ -3,6 +3,8 @@ from termcolor import colored
 
 from .enums.file_status_enum import FileStatusEnum
 
+import random
+
 class CliEnrolmentSystem(BaseSystem):
 	def __init__(self):
 		super().__init__()
@@ -181,3 +183,66 @@ class CliEnrolmentSystem(BaseSystem):
 				self._active_user.update_password(new_password)
 				self.save_changes()
 				break
+	
+	def __student_course_menu(self):
+		is_loop = True
+		while is_loop:
+			selected_option = input(colored(self._tab_indent + 'Subject System (e/r/s/c/x): ', 'blue'))
+			self.__handle_subject_menu_option(selected_option)
+			
+			if selected_option.lower() == 'x':
+				is_loop = False
+
+	def __handle_subject_menu_option(self, selected_option):
+		match selected_option.lower():
+			case 'e':
+				self.__handle_enrolment()
+			case 'r':
+				self.__handle_remove_subject()
+			case 's':
+				self.__show_enrolled_subjects()
+			case 'c':
+				self.change_password()
+			case 'x':
+				pass
+			case _:
+				print(colored('Invalid option. Please try again.', 'yellow'))
+
+	def __handle_enrolment(self):
+		try:
+			# Automatically generate a unique subject ID (e.g., between 1 and 999)
+			subject_id = random.randint(1, 999)
+
+			# Enroll the student in the subject, using the subject ID as both the ID and name
+			self._active_user.enrol_subject(subject_id)
+			self.save_changes()
+
+			# Count how many subjects the student is enrolled in
+			current_enrolment_count = len(self._active_user._enrolment_list)
+
+			# Display the success message with the subject ID and current enrollment status
+			print(colored(f"Enrolling in Subject-{subject_id}", 'green'))
+			print(colored(f"You are now enrolled in {current_enrolment_count} out of 4 subjects", 'yellow'))
+
+		except ValueError as e:
+			print(colored(str(e), 'red'))
+
+	def __handle_remove_subject(self):
+		subject_id = input(self._tab_indent + "Enter subject ID to remove: ")
+		self._active_user.remove_subject(int(subject_id))
+		self.save_changes()
+		print(colored(f"Successfully removed subject {subject_id}.", 'green'))
+
+	def __show_enrolled_subjects(self):
+		if not self._active_user._enrolment_list:
+			print(colored("No subjects enrolled.", 'yellow'))
+		else:
+			# Show the number of subjects
+			subject_count = len(self._active_user._enrolment_list)
+			print(colored(f"Showing {subject_count} subjects", 'cyan'))
+
+			# Display each enrolled subject with its mark and grade
+			for enrolment in self._active_user._enrolment_list:
+				subject = enrolment.subject
+				grade = enrolment.grade
+				print(f"[ Subject::{subject.get_id()} -- mark = {grade.get_mark()} -- grade = {grade.get_type()} ]")
