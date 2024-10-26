@@ -1,24 +1,26 @@
 class BaseUser:
 	def __init__(self, id, name, email, password, role):
-		self._id = id
-		self._name = name
-		self._email = email
-		self._password = password
-		self._role = role
-		self._is_login = False
+		self.__id = id
+		self.__name = name
+		self.__email = email
+		self.__password = password
+		self.__role = role
 
 	def get_id(self):
-		return self._id
+		return self.__id
 	
 	def get_email(self):
-		return self._email
+		return self.__email
 	
 	def get_password(self):
-		return self._password
+		return self.__password
 	
 	def get_name(self):
-		return self._name
+		return self.__name
 	
+	def update_password(self, new_password):
+		self.__password = new_password
+		
 	def __str__(self):
-		return f'id: {self._id} - name: {self._name} - role: {self._role}'
+		return f'id: {self.__id} - name: {self.__name} - role: {self.__role}'
 	

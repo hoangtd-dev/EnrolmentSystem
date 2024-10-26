@@ -1,19 +1,16 @@
-import copy
-from ..enums.grade_type_enum import GradeTypeEnum
-
 class Grade:
 	def __init__(self, mark, type):
-		self._mark = mark
-		self._type = type
+		self.__mark = mark
+		self.__type = type
 
 	def get_mark(self):
-		return self._mark
+		return self.__mark
 
 	def get_type(self):
-		return self._type
+		return self.__type
 
 	def to_dict(self):
 		return {
-			"mark": self._mark,
-			"type": self._type
+			"mark": self.__mark,
+			"type": self.__type
 		}

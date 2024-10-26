@@ -14,42 +14,32 @@
         "enrolment_list": [
             {
                 "grade": {
-                    "mark": 20,
+                    "mark": 36,
                     "type": "Z"
                 },
                 "subject": {
-                    "id": "0001",
-                    "name": "subject 1"
+                    "id": 967,
+                    "name": 22
                 }
             },
             {
                 "grade": {
-                    "mark": 50,
-                    "type": "P"
+                    "mark": 25,
+                    "type": "Z"
                 },
                 "subject": {
-                    "id": "0001",
-                    "name": "subject 2"
+                    "id": 634,
+                    "name": 159
                 }
             },
             {
                 "grade": {
-                    "mark": 80,
-                    "type": "H"
+                    "mark": 30,
+                    "type": "Z"
                 },
                 "subject": {
-                    "id": "0001",
-                    "name": "subject 3"
-                }
-            },            
-            {
-                "grade": {
-                    "mark": 100,
-                    "type": "HD"
-                },
-                "subject": {
-                    "id": "0001",
-                    "name": "subject 4"
+                    "id": 693,
+                    "name": 54
                 }
             }
         ]
