@@ -237,7 +237,7 @@ class CliEnrolmentSystem(BaseSystem):
 	def __handle_remove_subject(self):
 		subject_id = input(self.__tab_indent + "Enter subject ID to remove: ")
 		active_user = self.get_active_user()
-		active_user.remove_subject(subject_id)
+		active_user.remove_subject(str(subject_id))
 		self.save_changes()
 		print(colored(f"Successfully removed subject {subject_id}.", 'green'))
 

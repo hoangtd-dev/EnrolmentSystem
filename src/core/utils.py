@@ -5,4 +5,4 @@ def format_id(str_len, new_id):
   if new_id_len > str_len:
     return None
  
-  return int('0' * (str_len - new_id_len) + new_id_str)
+  return '0' * (str_len - new_id_len) + new_id_str
