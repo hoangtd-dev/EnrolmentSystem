@@ -85,7 +85,8 @@ class BaseSystem():
 		return re.match(r"^[a-zA-Z]+\.[a-zA-Z]+@university\.com$", email) is not None
 
 	def is_password_valid(self, password):
-		return (password[0].isupper() and
+		return (len(password) != 0 and
+				password[0].isupper() and
 				len(password) >= 8 and
 				len(re.findall(r'[a-zA-Z]', password)) >= 5 and
 				len(re.findall(r'\d', password)) >= 3)
