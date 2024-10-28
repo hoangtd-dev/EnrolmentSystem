@@ -147,6 +147,12 @@ class CliEnrolmentSystem(BaseSystem):
 		while True:
 			email = input(self.__tab_indent + "Email: ")
 			password = input(self.__tab_indent + "Password: ")
+			
+			if not self.is_password_valid(password) or not self.is_email_valid(email):
+				print(colored(self.__tab_indent + "Incorrect email or password format", 'red'))
+				continue
+			else:
+				print(colored(self.__tab_indent + "email and password formats acceptable", 'yellow'))
 
 			students = self.get_students()
 			for student in students:
