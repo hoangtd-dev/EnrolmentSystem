@@ -4,7 +4,17 @@
         "name": "John Smith",
         "email": "john.smith@university.com",
         "password": "Helloworld123",
-        "enrolment_list": []
+        "enrolment_list": [
+            {
+                "grade": {
+                    "mark": 45,
+                    "type": "Z"
+                },
+                "subject": {
+                    "id": "839"
+                }
+            }
+        ]
     },
     {
         "id": "172236",

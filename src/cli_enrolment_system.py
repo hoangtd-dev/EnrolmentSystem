@@ -77,30 +77,15 @@ class CliEnrolmentSystem(BaseSystem):
 				pass
 			case _:
 				print(colored('Please input l/r/x only', 'yellow'))
-
+    
 	def __student_course_menu(self):
 		is_loop = True
 		while is_loop:
-			selected_option = input(colored(self.__tab_indent * 2 + 'Student Course Menu (c/e/r/s/x): ', 'blue'))
-			self.__handle_student_course_menu_option(selected_option)
-
+			selected_option = input(colored(self.__tab_indent + 'Subject System (e/r/s/c/x): ', 'blue'))
+			self.__handle_subject_menu_option(selected_option)
+			
 			if selected_option.lower() == 'x':
 				is_loop = False
-
-	def __handle_student_course_menu_option(self, selected_option):
-		match selected_option.lower():
-			case 'c':
-				self.change_password()
-			case 'e':
-				pass
-			case 'r':
-				pass
-			case 's':
-				pass
-			case 'x':
-				self.logout()
-			case _:
-				print(colored('Please input c/e/r/s/x only', 'yellow'))
 	# END MENU SECTION
 
 	# SAVE AND LOAD DATA SECTION
@@ -191,15 +176,6 @@ class CliEnrolmentSystem(BaseSystem):
 				active_user.update_password(new_password)
 				self.save_changes()
 				break
-	
-	def __student_course_menu(self):
-		is_loop = True
-		while is_loop:
-			selected_option = input(colored(self.__tab_indent + 'Subject System (e/r/s/c/x): ', 'blue'))
-			self.__handle_subject_menu_option(selected_option)
-			
-			if selected_option.lower() == 'x':
-				is_loop = False
 
 	def __handle_subject_menu_option(self, selected_option):
 		match selected_option.lower():
@@ -212,7 +188,7 @@ class CliEnrolmentSystem(BaseSystem):
 			case 'c':
 				self.change_password()
 			case 'x':
-				pass
+				self.logout()
 			case _:
 				print(colored('Invalid option. Please try again.', 'yellow'))
 
