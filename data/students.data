@@ -18,8 +18,7 @@
                     "type": "Z"
                 },
                 "subject": {
-                    "id": 967,
-                    "name": 22
+                    "id": 967
                 }
             },
             {
@@ -28,8 +27,7 @@
                     "type": "Z"
                 },
                 "subject": {
-                    "id": 634,
-                    "name": 159
+                    "id": 634
                 }
             },
             {
@@ -38,18 +36,16 @@
                     "type": "Z"
                 },
                 "subject": {
-                    "id": "0001",
-                    "name": "subject 3"
+                    "id": "0001"
                 }
-            },            
+            },
             {
                 "grade": {
                     "mark": 100,
                     "type": "HD"
                 },
                 "subject": {
-                    "id": "0001",
-                    "name": "subject 4"
+                    "id": "0001"
                 }
             }
         ]

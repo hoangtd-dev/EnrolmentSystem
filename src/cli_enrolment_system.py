@@ -2,7 +2,6 @@ from .base.base_system import BaseSystem
 from termcolor import colored
 
 from .enums.file_status_enum import FileStatusEnum
-
 import random
 
 class CliEnrolmentSystem(BaseSystem):
@@ -219,12 +218,10 @@ class CliEnrolmentSystem(BaseSystem):
 
 	def __handle_enrolment(self):
 		try:
-			# Automatically generate a unique subject ID (e.g., between 1 and 999)
-			subject_id = random.randint(1, 999)
 
-			# Enroll the student in the subject, using the subject ID as both the ID and name
+			# Enroll the student in the subject, using the subject ID 
 			active_user = self.get_active_user()
-			active_user.enrol_subject(subject_id)
+			subject_id = active_user.enrol_subject()
 			self.save_changes()
 
 			# Count how many subjects the student is enrolled in
@@ -240,7 +237,7 @@ class CliEnrolmentSystem(BaseSystem):
 	def __handle_remove_subject(self):
 		subject_id = input(self.__tab_indent + "Enter subject ID to remove: ")
 		active_user = self.get_active_user()
-		active_user.remove_subject(int(subject_id))
+		active_user.remove_subject(subject_id)
 		self.save_changes()
 		print(colored(f"Successfully removed subject {subject_id}.", 'green'))
 
