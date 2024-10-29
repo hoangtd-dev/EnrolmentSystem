@@ -94,15 +94,21 @@ class Student(BaseUser):
 
   
 	def remove_subject(self, subject_id):
-    # Use a loop to find and remove the subject by ID
+     
+		subject_id_to_str = str(subject_id)
+    	# Check if the subject exists in the enrolment list
+		enrolment_list = self.get_enrolment_list()
+		if not any(enrolment.get_subject().get_id() == subject_id_to_str for enrolment in enrolment_list):
+			return False  # Return False if the subject is not found
 
 		new_enrolment_list = []
 		for enrolment in self.get_enrolment_list():
-			if enrolment.get_subject().get_id() != subject_id:
+			if enrolment.get_subject().get_id() != subject_id_to_str:
 				new_enrolment_list.append(enrolment)
-		
 		# Update the enrolment list
 		self.__enrolment_list = new_enrolment_list
+		return True
+
   
 	def calculate_average_mark(self):
 		if len(self.get_enrolment_list) == 0:

@@ -7,11 +7,38 @@
         "enrolment_list": [
             {
                 "grade": {
-                    "mark": 45,
+                    "mark": 50,
+                    "type": "P"
+                },
+                "subject": {
+                    "id": "274"
+                }
+            },
+            {
+                "grade": {
+                    "mark": 95,
+                    "type": "HD"
+                },
+                "subject": {
+                    "id": "976"
+                }
+            },
+            {
+                "grade": {
+                    "mark": 56,
+                    "type": "P"
+                },
+                "subject": {
+                    "id": "850"
+                }
+            },
+            {
+                "grade": {
+                    "mark": 41,
                     "type": "Z"
                 },
                 "subject": {
-                    "id": "839"
+                    "id": "308"
                 }
             }
         ]

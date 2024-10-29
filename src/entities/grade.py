@@ -3,13 +3,13 @@ from ..enums.grade_type_enum import GradeTypeEnum
 class Grade:
 	def __init__(self, mark, grade_type=None):
 		self.__mark = mark
-		self.grade_type = grade_type if grade_type else self.get_classify_grade(mark)
+		self.__grade_type = grade_type if grade_type else self.get_classify_grade(mark)
 
 	def get_mark(self):
 		return self.__mark
 
 	def get_type(self):
-		return self.grade_type
+		return self.__grade_type
 
 	@staticmethod
 	def get_classify_grade(mark):
@@ -29,5 +29,5 @@ class Grade:
 	def to_dict(self):
 		return {
 			"mark": self.__mark,
-			"type": self.grade_type
+			"type": self.__grade_type
 		}

@@ -212,10 +212,17 @@ class CliEnrolmentSystem(BaseSystem):
 
 	def __handle_remove_subject(self):
 		subject_id = input(self.__tab_indent + "Enter subject ID to remove: ")
-		active_user = self.get_active_user()
-		active_user.remove_subject(str(subject_id))
-		self.save_changes()
-		print(colored(f"Successfully removed subject {subject_id}.", 'green'))
+  		
+    	# Check if the subject_id is a valid number
+		if not subject_id.isdigit():
+			print(colored("Invalid input. Please enter a valid subject ID number.", 'red'))
+			return
+
+		if self.get_active_user().remove_subject(subject_id):
+			print(colored(f"Successfully removed subject {subject_id}.", 'green'))
+			self.save_changes()
+		else:
+			print(colored("Input subject ID not found", 'red'))
 
 	def __show_enrolled_subjects(self):
 		active_user = self.get_active_user()
