@@ -2,7 +2,6 @@ from .base.base_system import BaseSystem
 from termcolor import colored
 
 from .enums.file_status_enum import FileStatusEnum
-
 import random
 
 class CliEnrolmentSystem(BaseSystem):
@@ -78,30 +77,15 @@ class CliEnrolmentSystem(BaseSystem):
 				pass
 			case _:
 				print(colored('Please input l/r/x only', 'yellow'))
-
+    
 	def __student_course_menu(self):
 		is_loop = True
 		while is_loop:
-			selected_option = input(colored(self.__tab_indent * 2 + 'Student Course Menu (c/e/r/s/x): ', 'blue'))
-			self.__handle_student_course_menu_option(selected_option)
-
+			selected_option = input(colored(self.__tab_indent + 'Subject System (e/r/s/c/x): ', 'blue'))
+			self.__handle_subject_menu_option(selected_option)
+			
 			if selected_option.lower() == 'x':
 				is_loop = False
-
-	def __handle_student_course_menu_option(self, selected_option):
-		match selected_option.lower():
-			case 'c':
-				self.change_password()
-			case 'e':
-				pass
-			case 'r':
-				pass
-			case 's':
-				pass
-			case 'x':
-				self.logout()
-			case _:
-				print(colored('Please input c/e/r/s/x only', 'yellow'))
 	# END MENU SECTION
 
 	# SAVE AND LOAD DATA SECTION
@@ -192,15 +176,6 @@ class CliEnrolmentSystem(BaseSystem):
 				active_user.update_password(new_password)
 				self.save_changes()
 				break
-	
-	def __student_course_menu(self):
-		is_loop = True
-		while is_loop:
-			selected_option = input(colored(self.__tab_indent + 'Subject System (e/r/s/c/x): ', 'blue'))
-			self.__handle_subject_menu_option(selected_option)
-			
-			if selected_option.lower() == 'x':
-				is_loop = False
 
 	def __handle_subject_menu_option(self, selected_option):
 		match selected_option.lower():
@@ -213,18 +188,16 @@ class CliEnrolmentSystem(BaseSystem):
 			case 'c':
 				self.change_password()
 			case 'x':
-				pass
+				self.logout()
 			case _:
 				print(colored('Invalid option. Please try again.', 'yellow'))
 
 	def __handle_enrolment(self):
 		try:
-			# Automatically generate a unique subject ID (e.g., between 1 and 999)
-			subject_id = random.randint(1, 999)
 
-			# Enroll the student in the subject, using the subject ID as both the ID and name
+			# Enroll the student in the subject, using the subject ID 
 			active_user = self.get_active_user()
-			active_user.enrol_subject(subject_id)
+			subject_id = active_user.enrol_subject()
 			self.save_changes()
 
 			# Count how many subjects the student is enrolled in
@@ -239,10 +212,17 @@ class CliEnrolmentSystem(BaseSystem):
 
 	def __handle_remove_subject(self):
 		subject_id = input(self.__tab_indent + "Enter subject ID to remove: ")
-		active_user = self.get_active_user()
-		active_user.remove_subject(int(subject_id))
-		self.save_changes()
-		print(colored(f"Successfully removed subject {subject_id}.", 'green'))
+  		
+    	# Check if the subject_id is a valid number
+		if not subject_id.isdigit():
+			print(colored("Invalid input. Please enter a valid subject ID number.", 'red'))
+			return
+
+		if self.get_active_user().remove_subject(subject_id):
+			print(colored(f"Successfully removed subject {subject_id}.", 'green'))
+			self.save_changes()
+		else:
+			print(colored("Input subject ID not found", 'red'))
 
 	def __show_enrolled_subjects(self):
 		active_user = self.get_active_user()

@@ -4,7 +4,44 @@
         "name": "John Smith",
         "email": "john.smith@university.com",
         "password": "Helloworld123",
-        "enrolment_list": []
+        "enrolment_list": [
+            {
+                "grade": {
+                    "mark": 50,
+                    "type": "P"
+                },
+                "subject": {
+                    "id": "274"
+                }
+            },
+            {
+                "grade": {
+                    "mark": 95,
+                    "type": "HD"
+                },
+                "subject": {
+                    "id": "976"
+                }
+            },
+            {
+                "grade": {
+                    "mark": 56,
+                    "type": "P"
+                },
+                "subject": {
+                    "id": "850"
+                }
+            },
+            {
+                "grade": {
+                    "mark": 41,
+                    "type": "Z"
+                },
+                "subject": {
+                    "id": "308"
+                }
+            }
+        ]
     },
     {
         "id": "172236",
@@ -18,8 +55,7 @@
                     "type": "Z"
                 },
                 "subject": {
-                    "id": 967,
-                    "name": 22
+                    "id": 967
                 }
             },
             {
@@ -28,8 +64,7 @@
                     "type": "Z"
                 },
                 "subject": {
-                    "id": 634,
-                    "name": 159
+                    "id": 634
                 }
             },
             {
@@ -38,8 +73,16 @@
                     "type": "Z"
                 },
                 "subject": {
-                    "id": 693,
-                    "name": 54
+                    "id": "0001"
+                }
+            },
+            {
+                "grade": {
+                    "mark": 100,
+                    "type": "HD"
+                },
+                "subject": {
+                    "id": "0001"
                 }
             }
         ]
