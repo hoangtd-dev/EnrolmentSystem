@@ -1,111 +1,20 @@
 [
     {
-        "id": "577280",
-        "name": "John Smith",
-        "email": "john.smith@university.com",
-        "password": "Helloworld123",
-        "enrolment_list": [
+        "id": "354576",
+        "name": "Student 1",
+        "email": "student.studen@university.com",
+        "password": "Student123456",
+        "enrolled_subjects": [
             {
-                "grade": {
-                    "mark": 50,
-                    "type": "P"
-                },
-                "subject": {
-                    "id": "274"
-                }
+                "id": "785",
+                "mark": 87,
+                "type": "HD"
             },
             {
-                "grade": {
-                    "mark": 95,
-                    "type": "HD"
-                },
-                "subject": {
-                    "id": "976"
-                }
-            },
-            {
-                "grade": {
-                    "mark": 56,
-                    "type": "P"
-                },
-                "subject": {
-                    "id": "850"
-                }
-            },
-            {
-                "grade": {
-                    "mark": 41,
-                    "type": "Z"
-                },
-                "subject": {
-                    "id": "308"
-                }
+                "id": "047",
+                "mark": 28,
+                "type": "Z"
             }
         ]
-    },
-    {
-        "id": "172236",
-        "name": "dasdsada",
-        "email": "admin.ghfhg@university.com",
-        "password": "Asdfgh12345",
-        "enrolment_list": [
-            {
-                "grade": {
-                    "mark": 36,
-                    "type": "Z"
-                },
-                "subject": {
-                    "id": 967
-                }
-            },
-            {
-                "grade": {
-                    "mark": 25,
-                    "type": "Z"
-                },
-                "subject": {
-                    "id": 634
-                }
-            },
-            {
-                "grade": {
-                    "mark": 30,
-                    "type": "Z"
-                },
-                "subject": {
-                    "id": "0001"
-                }
-            },
-            {
-                "grade": {
-                    "mark": 100,
-                    "type": "HD"
-                },
-                "subject": {
-                    "id": "0001"
-                }
-            }
-        ]
-    },
-    {
-        "id": "588504",
-        "name": "Adm Adm",
-        "email": "adm.adm@university.com",
-        "password": "Admin123456778",
-        "enrolment_list": []
-    },
-    {
-        "id": "439389",
-        "name": "Test 1",
-        "email": "Admin.admin@university.com",
-        "password": "ADDminn123332",
-        "enrolment_list": []
-    },
-    {
-        "id": "240945",
-        "name": "Admin 1",
-        "email": "admin.admin@university.com",
-        "password": "Addminn123332",
-        "enrolment_list": []
     }
 ]

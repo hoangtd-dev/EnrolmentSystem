@@ -86,6 +86,22 @@ class CliEnrolmentSystem(BaseSystem):
 			
 			if selected_option.lower() == 'x':
 				is_loop = False
+
+	def __handle_subject_menu_option(self, selected_option):
+		match selected_option.lower():
+			case 'e':
+				self.__handle_enrolment()
+			case 'r':
+				self.__handle_remove_subject()
+			case 's':
+				self.__show_enrolled_subjects()
+			case 'c':
+				self.change_password()
+			case 'x':
+				self.logout()
+			case _:
+				print(colored('Invalid option. Please try again.', 'yellow'))
+
 	# END MENU SECTION
 
 	# SAVE AND LOAD DATA SECTION
@@ -177,21 +193,6 @@ class CliEnrolmentSystem(BaseSystem):
 				self.save_changes()
 				break
 
-	def __handle_subject_menu_option(self, selected_option):
-		match selected_option.lower():
-			case 'e':
-				self.__handle_enrolment()
-			case 'r':
-				self.__handle_remove_subject()
-			case 's':
-				self.__show_enrolled_subjects()
-			case 'c':
-				self.change_password()
-			case 'x':
-				self.logout()
-			case _:
-				print(colored('Invalid option. Please try again.', 'yellow'))
-
 	def __handle_enrolment(self):
 		try:
 
@@ -201,7 +202,7 @@ class CliEnrolmentSystem(BaseSystem):
 			self.save_changes()
 
 			# Count how many subjects the student is enrolled in
-			current_enrolment_count = len(active_user.get_enrolment_list())
+			current_enrolment_count = len(active_user.get_enrolled_subjects())
 
 			# Display the success message with the subject ID and current enrollment status
 			print(colored(f"Enrolling in Subject-{subject_id}", 'green'))
@@ -226,16 +227,14 @@ class CliEnrolmentSystem(BaseSystem):
 
 	def __show_enrolled_subjects(self):
 		active_user = self.get_active_user()
-		enrolment_list = active_user.get_enrolment_list()
-		if not enrolment_list:
+		enrolled_subjects = active_user.get_enrolled_subjects()
+		if not enrolled_subjects:
 			print(colored("No subjects enrolled.", 'yellow'))
 		else:
 			# Show the number of subjects
-			subject_count = len(enrolment_list)
+			subject_count = len(enrolled_subjects)
 			print(colored(f"Showing {subject_count} subjects", 'cyan'))
 
 			# Display each enrolled subject with its mark and grade
-			for enrolment in enrolment_list:
-				subject = enrolment.get_subject()
-				grade = enrolment.get_grade()
-				print(f"[ Subject::{subject.get_id()} -- mark = {grade.get_mark()} -- grade = {grade.get_type()} ]")
+			for enrolled_subject in enrolled_subjects:
+				print(f"[ Subject::{enrolled_subject.get_id()} -- mark = {enrolled_subject.get_mark()} -- grade = {enrolled_subject.get_grade()} ]")

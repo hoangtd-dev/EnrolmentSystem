@@ -3,19 +3,17 @@ from ..enums.role_enum import RoleEnum
 from ..base.entities.base_user import BaseUser
 from ..core.utils import format_id 
 
-from .enrolment import Enrolment
 from .subject import Subject
-from .grade import Grade
 
 import random
 
 class Student(BaseUser):
-	def __init__(self, id, name, email, password, enrolment_list = []):
+	def __init__(self, id, name, email, password, enrolled_subjects = []):
 		super().__init__(id, name, email, password, RoleEnum.STUDENT)
-		self.__enrolment_list = enrolment_list
+		self.__enrolled_subjects = enrolled_subjects
 
-	def get_enrolment_list(self):
-		return self.__enrolment_list
+	def get_enrolled_subjects(self):
+		return self.__enrolled_subjects
 	
 	def to_dict(self):
 		return {
@@ -23,33 +21,18 @@ class Student(BaseUser):
 				"name": self.get_name(),
 				"email": self.get_email(),
 				"password": self.get_password(),
-				"enrolment_list": [ enrolment.to_dict() for enrolment in self.__enrolment_list ]
+				"enrolled_subjects": [ enrolled_subject.to_dict() for enrolled_subject in self.__enrolled_subjects ]
 		}
   
-	def from_dict(student_dict):
-		enrolment_list = [
-			Enrolment(
-				Grade(enrolment['grade']['mark'], enrolment['grade']['type']),
-				Subject(enrolment['subject']['id'], enrolment['subject']['name'])
-			)
-			for enrolment in student_dict['enrolment_list']
-		]
-		return Student(
-			student_dict['id'],
-			student_dict['name'],
-			student_dict['email'],
-			student_dict['password'],
-			enrolment_list
-		)
-	
 	@staticmethod
 	def create_from_JSON(student):
-		enrolment_list = [
-			Enrolment(
-				Grade(enrolment['grade']['mark'], enrolment['grade']['type']),
-				Subject(enrolment['subject']['id'])
+		enrolled_subjects = [
+			Subject(
+				enrolled_subject['id'],
+				enrolled_subject['mark'],
+				enrolled_subject['type']
 			) 
-			for enrolment in student['enrolment_list']
+			for enrolled_subject in student['enrolled_subjects']
 		]
 
 		return Student(
@@ -57,7 +40,7 @@ class Student(BaseUser):
 			student['name'],
 			student['email'],
 			student['password'],
-			enrolment_list
+			enrolled_subjects
 		)
 	
 	@staticmethod
@@ -68,7 +51,7 @@ class Student(BaseUser):
 		return True if self.get_email() == email and self.get_password() == password else False
 
 	def enrol_subject(self):
-		if len(self.get_enrolment_list()) >= 4:
+		if len(self.__enrolled_subjects) >= 4:
 			raise ValueError("Maximum enrolment of 4 subjects reached")
 
 		# Generate subject ID and random mark
@@ -80,40 +63,36 @@ class Student(BaseUser):
 				subject_id = format_id(3, random_id)  # Convert to 3-digit string, e.g., '012'
 
 				# Check if this subject ID is already in the enrolment list
-				if not any(enrolment.get_subject().get_id() == subject_id for enrolment in self.get_enrolment_list()):
+				if not any(enrolled_subject.get_id() == subject_id for enrolled_subject in self.__enrolled_subjects):
 					break  # Exit loop if the ID is unique
 		mark = random.randint(25, 100)
 
 		# Create subject and enrolment
-		subject = Subject(subject_id)
-		grade = Grade(mark)
-		enrolment = Enrolment(grade, subject)
-		self.__enrolment_list.append(enrolment)
+		subject = Subject(subject_id, mark)
+		self.__enrolled_subjects.append(subject)
   
 		return subject_id
 
   
 	def remove_subject(self, subject_id):
-     
 		subject_id_to_str = str(subject_id)
     	# Check if the subject exists in the enrolment list
-		enrolment_list = self.get_enrolment_list()
-		if not any(enrolment.get_subject().get_id() == subject_id_to_str for enrolment in enrolment_list):
+		if not any(enrolled_subject.get_id() == subject_id_to_str for enrolled_subject in self.__enrolled_subjects):
 			return False  # Return False if the subject is not found
 
-		new_enrolment_list = []
-		for enrolment in self.get_enrolment_list():
-			if enrolment.get_subject().get_id() != subject_id_to_str:
-				new_enrolment_list.append(enrolment)
+		new_enrolled_subjects = []
+		for enrolled_subject in self.get_enrolled_subjects():
+			if enrolled_subject.get_id() != subject_id_to_str:
+				new_enrolled_subjects.append(enrolled_subject)
 		# Update the enrolment list
-		self.__enrolment_list = new_enrolment_list
+		self.__enrolled_subjects = new_enrolled_subjects
 		return True
 
   
 	def calculate_average_mark(self):
-		if len(self.get_enrolment_list) == 0:
+		if len(self.__enrolled_subjects) == 0:
 			return 0
 
-		total_marks = sum([enrolment.get_grade().get_mark() for enrolment in self.__enrolment_list])
-		average_mark = total_marks / len(self.__enrolment_list)
+		total_marks = sum([enrolment.get_grade().get_mark() for enrolment in self.__enrolled_subjects])
+		average_mark = total_marks / len(self.__enrolled_subjects)
 		return average_mark
