@@ -62,7 +62,7 @@ class LoginLayout(BaseLayer):
 					self._system.update_active_user(student)
 
 		if self._system.get_active_user():
-			self.navigate('student_subject')
+			self.navigate('student_enrolment')
 		else:
 			showerror(title='Error', message='Account does not exist in system.')
 

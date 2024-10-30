@@ -8,8 +8,8 @@ class SubjectLayout(BaseAuthenticatedLayer):
 		super().__init__(master, system)
 
 	def setup_sidebar_widgets(self, master):
-		self.create_tabs(master, text='Subject', is_active=True)
 		self.create_tabs(master, text='Enrolment', next_layout_key='student_enrolment')
+		self.create_tabs(master, text='Subject', is_active=True)
 
 	def setup_content_widgets(self, master):
 		self.__configure_enrolment_list_widgets(master)
@@ -17,14 +17,14 @@ class SubjectLayout(BaseAuthenticatedLayer):
 	def __configure_enrolment_list_widgets(self, master):
 		enrolment_label_frame = ttk.Frame(master, padding=5)
 		enrolment_label_frame.pack(fill=tk.X)
-		enrolment_label = ttk.Label(enrolment_label_frame, text="Enrolment List: ")
+		enrolment_label = ttk.Label(enrolment_label_frame, text="Enrolled Subjects: ")
 		enrolment_label.pack(side='left')
 
 		enrolment_frame = ttk.Frame(master, padding=10)
 		enrolment_frame.pack(fill=tk.BOTH, expand=True)
 
 		active_user = self._system.get_active_user()
-		enrolments = active_user.get_enrolment_list()
+		enrolled_subjects = active_user.get_enrolled_subjects()
 
 		columns = {
 			'subject_name': 'Subject Name',
@@ -32,8 +32,8 @@ class SubjectLayout(BaseAuthenticatedLayer):
 			'grade': 'grade'
 		}
 
-		displayed_enrolments = []
-		for enrolment in enrolments:
-			displayed_enrolments.append((enrolment.get_subject().get_name(), enrolment.get_grade().get_mark(), enrolment.get_grade().get_type()))
+		displayed_enrolled_subjects = []
+		for enrolled_subject in enrolled_subjects:
+			displayed_enrolled_subjects.append((f'Subject {enrolled_subject.get_id()}', enrolled_subject.get_mark(), enrolled_subject.get_grade()))
 
-		create_custom_table(enrolment_frame, columns, data=displayed_enrolments)
+		create_custom_table(enrolment_frame, columns, data=displayed_enrolled_subjects)
