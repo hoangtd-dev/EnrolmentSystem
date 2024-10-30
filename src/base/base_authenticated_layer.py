@@ -24,7 +24,7 @@ class BaseAuthenticatedLayer(BaseLayer):
 		return top_bar_layer
 
 	def __setup_top_bar_widgets(self, master):
-		hello_label = ttk.Label(master, text=f'Hi, {self._system._active_user.get_name()}', padding=10)
+		hello_label = ttk.Label(master, text=f'Hi, {self._system.get_active_user().get_name()}', padding=10)
 		hello_label.pack(side='left')
 		
 		logout_action = ttk.Label(master, text='Logout', padding=10)

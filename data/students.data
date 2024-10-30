@@ -1,20 +1,51 @@
 [
     {
-        "id": "354576",
-        "name": "Student 1",
-        "email": "student.studen@university.com",
-        "password": "Student123456",
+        "id": "577280",
+        "name": "John Smith",
+        "email": "john.smith@university.com",
+        "password": "Helloworld123",
         "enrolled_subjects": [
             {
-                "id": "785",
-                "mark": 87,
-                "type": "HD"
+                "id": "036",
+                "mark": 67,
+                "type": "C"
             },
             {
-                "id": "047",
-                "mark": 28,
+                "id": "950",
+                "mark": 30,
                 "type": "Z"
+            },
+            {
+                "id": "723",
+                "mark": 81,
+                "type": "D"
+            },
+            {
+                "id": "498",
+                "mark": 95,
+                "type": "HD"
             }
         ]
+    },
+    {
+        "id": "588504",
+        "name": "Adm Adm",
+        "email": "adm.adm@university.com",
+        "password": "Admin123456778",
+        "enrolled_subjects": []
+    },
+    {
+        "id": "439389",
+        "name": "Test 1",
+        "email": "Admin.admin@university.com",
+        "password": "ADDminn123332",
+        "enrolled_subjects": []
+    },
+    {
+        "id": "240945",
+        "name": "Admin 1",
+        "email": "admin.admin@university.com",
+        "password": "Addminn123332",
+        "enrolled_subjects": []
     }
 ]

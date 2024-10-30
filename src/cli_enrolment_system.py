@@ -108,7 +108,7 @@ class CliEnrolmentSystem(BaseSystem):
 	def load_data(self):
 		file_response = self.read_file()
 		if file_response.get_status() == FileStatusEnum.ERROR:
-			print(colored(file_response.get_error(), 'red'))
+			print(colored('Cannot load data from database', 'red'))
 	
 	def save_changes(self):
 		file_response = self.write_file(self.get_students())
@@ -116,7 +116,7 @@ class CliEnrolmentSystem(BaseSystem):
 		if file_response.get_status() == FileStatusEnum.SUCCESS:
 			self.load_data()
 		else:
-			print(colored(file_response.get_error(), 'red'))
+			print(colored('Cannot save data in database', 'red'))
 	# END SAVE AND LOAD DATA SECTION
 
 	def __handle_register(self):

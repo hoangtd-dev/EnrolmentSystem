@@ -3,6 +3,8 @@ from .layouts.main_layout import MainLayout
 
 from .enums.file_status_enum import FileStatusEnum
 
+from tkinter.messagebox import showerror
+
 class GuiEnrolmentSystem(BaseSystem):
 	def __init__(self):
 		super().__init__()
@@ -16,15 +18,13 @@ class GuiEnrolmentSystem(BaseSystem):
 	def load_data(self):
 		file_response = self.read_file()
 		if file_response.get_status() == FileStatusEnum.ERROR:
-			# Show error with notification layout
-			pass
+			showerror(title='Error', message='Cannot load data from database')
 	
 	def save_changes(self):
-		file_response = self.write_file(self._students)
+		file_response = self.write_file(self.get_students())
 
 		if file_response.get_status() == FileStatusEnum.SUCCESS:
 			self.load_data()
 		else:
-			# Show error with notification layout
-			pass
+			showerror(title='Error', message='Cannot save data to database')
 	# END SAVE AND LOAD DATA SECTION
