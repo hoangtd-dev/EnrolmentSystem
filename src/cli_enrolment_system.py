@@ -2,6 +2,7 @@ from .base.base_system import BaseSystem
 from termcolor import colored
 
 from .enums.file_status_enum import FileStatusEnum
+from .entities.subject import Subject
 import random
 
 class CliEnrolmentSystem(BaseSystem):
@@ -44,15 +45,16 @@ class CliEnrolmentSystem(BaseSystem):
 	def __handle_admin_menu_option(self, selected_option):
 		match selected_option.lower():
 			case 'c':
-				pass
+				self.__handle_clear_students()
 			case 'g':
-				pass
+				self.__handle_group_students()
 			case 'p':
-				pass
+				self.__handle_partition_students()
 			case 'r':
-				pass
+				student_id = input(self.__tab_indent + "Remove by ID: ")
+				self.__handle_remove_students(student_id)
 			case 's':
-				pass
+				self.__handle_show_students()
 			case 'x':
 				self.logout()
 			case _:
@@ -239,3 +241,89 @@ class CliEnrolmentSystem(BaseSystem):
 			# Display each enrolled subject with its mark and grade
 			for enrolled_subject in enrolled_subjects:
 				print(self.__tab_indent + f"[ Subject::{enrolled_subject.get_id()} -- mark = {enrolled_subject.get_mark()} -- grade = {enrolled_subject.get_grade()} ]")
+	
+	def __handle_clear_students(self):
+		print(colored(self.__tab_indent + "Clearing students database", 'yellow'))
+		while True:
+			userInput = input(colored(self.__tab_indent + "Are you sure you want to clear the database (Y)ES/(N)0: ", 'red'))
+			match userInput.lower():
+				case 'y':
+					self.update_students([])
+					self.save_changes() 
+					print(colored(self.__tab_indent + "Students data cleared", 'yellow'))
+					break
+				case 'n':
+					break
+				case _:
+					print(colored(self.__tab_indent + "Invalid input. Please enter 'Y' or 'N' only.", 'red'))
+
+	def __handle_show_students(self):
+		print(colored(self.__tab_indent + "Student List", 'yellow'))
+		students = self.get_students()
+		if students:
+			for student in students:
+				print(self.__tab_indent + f"{student.get_name()} : : {student.get_id()} --> Email: {student.get_email()}")
+		else:
+			print(self.__tab_indent * 2 + "< Nothing to display >")
+	
+	def __handle_group_students(self):
+		print(colored(self.__tab_indent + "Grade Grouping", 'yellow'))
+		students = self.get_students()
+		group_list = {
+			'Z': [],
+			'P': [],
+			'C': [],
+			'D': [],
+			'HD': []
+		}
+		if students:
+			for student in students:
+				avg_grade = student.calculate_average_mark()
+				grade_type = Subject.get_classify_grade(avg_grade)
+				grade_group = group_list.get(grade_type)
+
+				grade_group.append(f'{student.get_name()} :: {student.get_id()} --> GRADE: {grade_type} - MARK: {avg_grade:.2f}')
+		
+		if not students:
+			print(self.__tab_indent * 2 + "< Nothing to display >")
+		else:
+			for key in group_list.keys():
+				if len(group_list[key]) > 0:
+					print(self.__tab_indent + f"{key} ---> [{', '.join(group_list[key])}]")
+	
+	def __handle_partition_students(self):
+		print(colored(self.__tab_indent + "PASS/FAIL Partition", 'yellow'))
+		students = self.get_students()
+		pass_fail = {"PASS": [], "FAIL": []}
+
+		for student in students:
+			avg_grade = student.calculate_average_mark()
+			grade_type = Subject.get_classify_grade(avg_grade)
+			if avg_grade >= 50:
+				pass_fail["PASS"].append((student, grade_type, avg_grade))
+			else:
+				pass_fail["FAIL"].append((student, grade_type, avg_grade))
+		
+		for category, student_list in pass_fail.items():
+			student_details = [
+                f"{student.get_name()} :: {student.get_id()} --> GRADE: {grade_type} - MARK: {avg_grade}"
+                for student, grade_type, avg_grade in student_list
+            ]
+			print(self.__tab_indent + f"{category} --> [{', '.join(student_details)}]")
+
+
+	def __handle_remove_students(self, student_id):
+		students = self.get_students()  # Get the current list of students
+		student_remove = next((s for s in students if s.get_id() == student_id), None)
+		
+		if student_remove:
+			updated_students = [s for s in students if s.get_id() != student_id] # Create a new list of students excluding the one to be removed
+			self.update_students(updated_students)
+			self.save_changes()
+		
+			print(colored(self.__tab_indent + f"Removing Student {student_id} Account", 'yellow'))
+			
+		else:
+			print(colored(self.__tab_indent + f"Student {student_id} does not exist", 'red'))
+
+        

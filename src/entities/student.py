@@ -93,6 +93,6 @@ class Student(BaseUser):
 		if len(self.__enrolled_subjects) == 0:
 			return 0
 
-		total_marks = sum([enrolment.get_grade().get_mark() for enrolment in self.__enrolled_subjects])
+		total_marks = sum([enrolled_subject.get_mark() for enrolled_subject in self.__enrolled_subjects])
 		average_mark = total_marks / len(self.__enrolled_subjects)
 		return average_mark
