@@ -52,7 +52,7 @@ class Student(BaseUser):
 
 	def enrol_subject(self):
 		if len(self.__enrolled_subjects) >= 4:
-			raise ValueError("Maximum enrolment of 4 subjects reached")
+			raise ValueError("Students are allowed to enrol in 4 subjects only")
 
 		# Generate subject ID and random mark
 		while True:

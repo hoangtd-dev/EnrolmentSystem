@@ -56,7 +56,7 @@ class CliEnrolmentSystem(BaseSystem):
 			case 'x':
 				self.logout()
 			case _:
-				print(colored('Please input c/g/p/r/s/x only', 'yellow'))
+				print(colored(self.__tab_indent + 'Please input c/g/p/r/s/x only', 'yellow'))
 
 	def __student_menu(self):
 		is_loop = True
@@ -76,12 +76,12 @@ class CliEnrolmentSystem(BaseSystem):
 			case 'x':
 				pass
 			case _:
-				print(colored('Please input l/r/x only', 'yellow'))
+				print(colored(self.__tab_indent + 'Please input l/r/x only', 'yellow'))
     
 	def __student_course_menu(self):
 		is_loop = True
 		while is_loop:
-			selected_option = input(colored(self.__tab_indent + 'Subject System (e/r/s/c/x): ', 'blue'))
+			selected_option = input(colored(self.__tab_indent + 'Subject System (c/e/r/s/x): ', 'blue'))
 			self.__handle_subject_menu_option(selected_option)
 			
 			if selected_option.lower() == 'x':
@@ -100,7 +100,7 @@ class CliEnrolmentSystem(BaseSystem):
 			case 'x':
 				self.logout()
 			case _:
-				print(colored('Invalid option. Please try again.', 'yellow'))
+				print(colored(self.__tab_indent + 'Please input c/e/r/s/x only', 'yellow'))
 
 	# END MENU SECTION
 
@@ -134,7 +134,7 @@ class CliEnrolmentSystem(BaseSystem):
 			duplicate_name = self.check_duplicate_email(email)
 			if duplicate_name:
 				print(colored(self.__tab_indent + f"Student {duplicate_name} already exists", 'red'))
-				continue
+				break
 
 			name = input(self.__tab_indent + "Name: ")
 			self.register_student(name, email, password)
@@ -163,7 +163,7 @@ class CliEnrolmentSystem(BaseSystem):
 			if self.get_active_user():
 				self.__student_course_menu() 
 			else:
-				print(colored(self.__tab_indent + "Incorrect email or password.", 'red'))
+				print(colored(self.__tab_indent + "Student does not exist", 'red'))
 			break
 
 	def __handle_admin_login(self):
@@ -205,36 +205,37 @@ class CliEnrolmentSystem(BaseSystem):
 			current_enrolment_count = len(active_user.get_enrolled_subjects())
 
 			# Display the success message with the subject ID and current enrollment status
-			print(colored(f"Enrolling in Subject-{subject_id}", 'green'))
-			print(colored(f"You are now enrolled in {current_enrolment_count} out of 4 subjects", 'yellow'))
+			print(colored(self.__tab_indent + f"Enrolling in Subject-{subject_id}", 'yellow'))
+			print(colored(self.__tab_indent + f"You are now enrolled in {current_enrolment_count} out of 4 subjects", 'yellow'))
 
 		except ValueError as e:
-			print(colored(str(e), 'red'))
+			print(colored(self.__tab_indent + str(e), 'red'))
 
 	def __handle_remove_subject(self):
-		subject_id = input(self.__tab_indent + "Enter subject ID to remove: ")
+		subject_id = input(self.__tab_indent + "Remove subject by ID: ")
   		
     	# Check if the subject_id is a valid number
 		if not subject_id.isdigit():
-			print(colored("Invalid input. Please enter a valid subject ID number.", 'red'))
+			print(colored(self.__tab_indent + "Invalid input. Please enter a valid subject ID number.", 'red'))
 			return
 
-		if self.get_active_user().remove_subject(subject_id):
-			print(colored(f"Successfully removed subject {subject_id}.", 'green'))
+		active_user = self.get_active_user()
+		if active_user.remove_subject(subject_id):
+			print(colored(self.__tab_indent + f"Dropping Subject-{subject_id}", 'yellow'))
+			print(colored(self.__tab_indent + f"You are now enrolled in {len(active_user.get_enrolled_subjects())} out of 4 subjects", 'yellow'))
 			self.save_changes()
 		else:
-			print(colored("Input subject ID not found", 'red'))
+			print(colored(self.__tab_indent + "Input subject ID not found", 'red'))
 
 	def __show_enrolled_subjects(self):
 		active_user = self.get_active_user()
 		enrolled_subjects = active_user.get_enrolled_subjects()
-		if not enrolled_subjects:
-			print(colored("No subjects enrolled.", 'yellow'))
-		else:
-			# Show the number of subjects
-			subject_count = len(enrolled_subjects)
-			print(colored(f"Showing {subject_count} subjects", 'cyan'))
+		
+		# Show the number of subjects
+		subject_count = len(enrolled_subjects)
+		print(colored(self.__tab_indent + f"Showing {subject_count} subjects", 'yellow'))
 
+		if enrolled_subjects:
 			# Display each enrolled subject with its mark and grade
 			for enrolled_subject in enrolled_subjects:
-				print(f"[ Subject::{enrolled_subject.get_id()} -- mark = {enrolled_subject.get_mark()} -- grade = {enrolled_subject.get_grade()} ]")
+				print(self.__tab_indent + f"[ Subject::{enrolled_subject.get_id()} -- mark = {enrolled_subject.get_mark()} -- grade = {enrolled_subject.get_grade()} ]")

@@ -88,7 +88,7 @@ class BaseSystem():
 		return (len(password) != 0 and
 				password[0].isupper() and
 				len(password) >= 8 and
-				len(re.findall(r'[a-zA-Z]', password)) >= 5 and
+				len(re.findall(r'[a-zA-Z]', password)) >= 6 and
 				len(re.findall(r'\d', password)) >= 3)
 
 	def generate_unique_id(self, str_len):  
